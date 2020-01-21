@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "curlipie"
+version = "0.1.0"
+description = ""
+authors = ["Nguyễn Hồng Quân <ng.hong.quan@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+typed-argument-parser = "^1.4"
+multidict = "^4.7.4"
+hh = "^2.0.0"
+CaseInsensitiveDict = "^1.0.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+devtools = "^0.5.1"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
