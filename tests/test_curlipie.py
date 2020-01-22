@@ -1,5 +1,6 @@
 import pytest
 
+from devtools import debug
 from curlipie.pie import curl_to_httpie
 
 
@@ -19,7 +20,7 @@ test_data = (
     ("curl --request DELETE http://quan.hoabinh.vn",
      "http DELETE http://quan.hoabinh.vn"),
     ("curl -X POST http://quan.hoabinh.vn -d 'username=yourusername&password=yourpassword'",
-     "http -f http://quan.hoabinh.vn username=yourusername password=yourpassword")
+     "http -f http://quan.hoabinh.vn username=yourusername password=yourpassword"),
 )
 
 
@@ -27,3 +28,12 @@ test_data = (
 def test_converting(curl, expected):
     httpie = curl_to_httpie(curl)
     assert httpie == expected
+
+
+def test_json_form():
+    curl = ("""curl -XPUT elastic.dev/movies/_doc/1 -d '{"director": "Burton, Tim", """
+            """ "year": 1996, "title": "Mars Attacks!"}' -H 'Content-Type: application/json'""")
+    output = curl_to_httpie(curl)
+    debug(output)
+    assert output == ("""http PUT elastic.dev/movies/_doc/1 director='Burton, Tim' """
+                      """year:=1996 title='Mars Attacks!'""")

@@ -10,6 +10,8 @@ typed-argument-parser = "^1.4"
 multidict = "^4.7.4"
 hh = "^2.0.0"
 CaseInsensitiveDict = "^1.0.0"
+yarl = "^1.4.2"
+orjson = "^2.2.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

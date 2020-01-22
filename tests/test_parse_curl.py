@@ -26,8 +26,9 @@ def test_curl_form_data_multi_mixed():
     cmline = "-d name=admin -d shoesize=12 -d color=green&food=wet http://quan.hoabinh.vn"
     args = parsed_args(cmline)
     assert args.data == ['name=admin', 'shoesize=12', 'color=green&food=wet']
-    assert args._data == [('name', 'admin'), ('shoesize', '12'),
-                          ('color', 'green'), ('food', 'wet')]
+    debug(args._data)
+    assert tuple(args._data) == (('name', 'admin'), ('shoesize', '12'),
+                                 ('color', 'green'), ('food', 'wet'))
 
 
 def test_head():

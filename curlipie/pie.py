@@ -4,6 +4,7 @@ from shlex import quote
 from collections import deque
 
 import hh
+from devtools import debug
 from .curly import CURLArgumentParser
 
 
@@ -34,14 +35,31 @@ def curl_to_httpie(cmd: str, long_option: bool = False) -> str:
     cmds.append(args._url)
     # Headers
     for k, v in args._headers.items():
-        cmds.append(f'{k}:{v}')
+        cmds.append(f'{quote(k)}:{quote(v)}')
     if args._request_json and not args._data:
         mime = mimetypes.types_map['.json']
-        cmds.append(f'{hh.CONTENT_TYPE}:{mime}')
+        cmds.append(f'{quote(hh.CONTENT_TYPE)}:{quote(mime)}')
     # Params
     for k, v in args._params:
-        cmds.append(f'{k}=={v}')
+        if k.startswith('-'):
+            cmds.append('--')
+        k = k.replace('=', r'\=')
+        cmds.append(f'{quote(k)}=={quote(v)}')
     # Data
     for p, v in args._data:
-        cmds.append(f'{p}={v}')
-    return ' '.join(quote(p) for p in cmds)
+        p = str(p)
+        if p.startswith('-'):
+            cmds.append('--')
+        p = p.replace('=', r'\=')
+        qp = quote(p)
+        # Syntax for uploading file
+        if isinstance(v, str) and v.startswith('@') and not args._request_json:
+            cmds.append(f'{qp}@{quote(v)}')
+            continue
+        # Not uploading file
+        try:
+            qv = quote(v)
+            cmds.append(f'{qp}={qv}' if not args.get else f'{qp}=={qv}')
+        except TypeError:     # v is integer, parsed from JSON
+            cmds.append(f'{quote(p)}:={v}' if not args.get else f'{qp}=={quote(str(v))}')
+    return ' '.join(cmds)
