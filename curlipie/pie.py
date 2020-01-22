@@ -4,7 +4,7 @@ from shlex import quote
 from collections import deque
 
 import hh
-from devtools import debug
+import orjson
 from .curly import CURLArgumentParser
 
 
@@ -60,6 +60,8 @@ def curl_to_httpie(cmd: str, long_option: bool = False) -> str:
         try:
             qv = quote(v)
             cmds.append(f'{qp}={qv}' if not args.get else f'{qp}=={qv}')
-        except TypeError:     # v is integer, parsed from JSON
+        except TypeError:     # v is not string, normally after parsed from JSON
+            if isinstance(v, (list, dict)):
+                v = quote(orjson.dumps(v).decode())
             cmds.append(f'{quote(p)}:={v}' if not args.get else f'{qp}=={quote(str(v))}')
     return ' '.join(cmds)

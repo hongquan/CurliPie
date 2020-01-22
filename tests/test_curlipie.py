@@ -34,6 +34,15 @@ def test_json_form():
     curl = ("""curl -XPUT elastic.dev/movies/_doc/1 -d '{"director": "Burton, Tim", """
             """ "year": 1996, "title": "Mars Attacks!"}' -H 'Content-Type: application/json'""")
     output = curl_to_httpie(curl)
-    debug(output)
     assert output == ("""http PUT elastic.dev/movies/_doc/1 director='Burton, Tim' """
                       """year:=1996 title='Mars Attacks!'""")
+
+
+def test_json_value_not_primitive():
+    curl = ("""curl -XPUT elastic.dev/movies/_doc/1 -d '{"genre": ["Comedy", "Sci-Fi"],"""
+            """ "actor": ["Jack Nicholson","Pierce Brosnan","Sarah Jessica Parker"]}' """
+            """-H 'Content-Type: application/json'""")
+    output = curl_to_httpie(curl)
+    debug(output)
+    assert output == ("""http PUT elastic.dev/movies/_doc/1 genre:='["Comedy","Sci-Fi"]' """
+                      """actor:='["Jack Nicholson","Pierce Brosnan","Sarah Jessica Parker"]'""")

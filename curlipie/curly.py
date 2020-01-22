@@ -9,7 +9,6 @@ from json.decoder import JSONDecodeError
 import hh
 import yarl
 import orjson
-from devtools import debug
 from tap import Tap
 
 from .structures import CaseInsensitiveDict
@@ -68,9 +67,7 @@ class CURLArgumentParser(Tap):
         self._params = u.query
         self._data = deque()
         for dstring in self.data:
-            debug(dstring)
             result = xparse_qsl(dstring)
-            debug(result)
             self._data.extend(result.data)
             self._errors.extend(result.errors)
         for h in self.header:
@@ -120,5 +117,4 @@ def xparse_qsl(string: str) -> DataArgParseResult:
         data = list(jsdata.items())
         return DataArgParseResult(data, errors)
     errors.append('JSON content does not represent an object')
-    debug(errors)
     return DataArgParseResult(errors=errors)
