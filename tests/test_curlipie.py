@@ -21,6 +21,8 @@ test_data = (
      "http DELETE http://quan.hoabinh.vn"),
     ("curl -X POST http://quan.hoabinh.vn -d 'username=yourusername&password=yourpassword'",
      "http -f http://quan.hoabinh.vn username=yourusername password=yourpassword"),
+    ("curl -X POST http://quan.hoabinh.vn/api/users --user admin:xxx -d name=meow",
+     "http -fa admin:xxx http://quan.hoabinh.vn/api/users name=meow")
 )
 
 

@@ -33,28 +33,39 @@ def curl_to_httpie(cmd: str, long_option: bool = False) -> str:
             return 'http'
     args = CURLArgumentParser().parse_args(cargs)
     cmds = deque(['http'])
-    if args.include or args.verbose:
+    if args.verbose:
         cmds.append('--verbose' if long_option else '-v')
     if args.location:
         if long_option:
             cmds.append('--follow')
         else:
             join_previous_arg(cmds, 'F')
-    if args.head:
-        cmds.append('HEAD')
-    elif args.request and not (args._data and args.request == 'POST'):
-        cmds.append(args.request)
+    if args.remote_name:
+        if long_option:
+            cmds.append('--download')
+        else:
+            join_previous_arg(cmds, 'd')
+    if args._data and not args._request_json:
+        if long_option:
+            cmds.append('--form')
+        else:
+            join_previous_arg(cmds, 'f')
     if args.user:
         if long_option:
             cmds.extend(('--auth', args.user))
         else:
             join_previous_arg(cmds, 'a')
             cmds.append(args.user)
-    if args._data and not args._request_json:
-        if long_option:
-            cmds.append('--form')
-        else:
-            join_previous_arg(cmds, 'f')
+    if args.include:
+        cmds.append('--all')
+    if args.insecure:
+        cmds.append('--verify', 'no')
+    if args.max_redirs:
+        cmds.extend('--max-redirects', args.max_redirs)
+    if args.head:
+        cmds.append('HEAD')
+    elif args.request and not (args._data and args.request == 'POST'):
+        cmds.append(args.request)
     # URL
     cmds.append(args._url)
     # Headers
@@ -94,4 +105,7 @@ def curl_to_httpie(cmd: str, long_option: bool = False) -> str:
                 v = quote(orjson.dumps(v).decode())
             debug(v)
             cmds.append(f'{qp}:={v}' if not args.get else f'{qp}=={quote(str(v))}')
+    if args.output:
+        param = '-o' if not long_option else '--output'
+        cmds.extend((param, quote(args.output)))
     return ' '.join(cmds)

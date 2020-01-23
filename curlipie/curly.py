@@ -27,6 +27,9 @@ class CURLArgumentParser(Tap):
     verbose: bool = False
     include: bool = False
     location: bool = False
+    insecure: bool = False
+    remote_name: bool = False
+    max_redirs: int = 0
     request: Optional[str] = None
     user: Optional[str] = None
     header: List[str] = []
@@ -55,6 +58,8 @@ class CURLArgumentParser(Tap):
         self.add_argument('-v', '--verbose')
         self.add_argument('-i', '--include')
         self.add_argument('-L', '--location')
+        self.add_argument('-k', '--insecure')
+        self.add_argument('-O', '--remote-name')
         self.add_argument('-X', '--request')
         self.add_argument('-u', '--user')
         self.add_argument('-H', '--header', nargs='?', action='append')
