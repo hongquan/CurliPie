@@ -68,8 +68,7 @@ Usage
 
     >>> from curlipie import curl_to_httpie
 
-    >>> curl = """curl -XPUT elastic.dev/movies/_doc/1 -d '{"director": "Burton, Tim", "year": 1996, "title": "Mars Attacks!"}' -H 'Content-Type: a
-    ... pplication/json'"""
+    >>> curl = """curl -XPUT elastic.dev/movies/_doc/1 -d '{"director": "Burton, Tim", "year": 1996, "title": "Mars Attacks!"}' -H 'Content-Type: application/json'"""
 
     >>> curl_to_httpie(curl)
     ConversionResult(httpie="http PUT elastic.dev/movies/_doc/1 director='Burton, Tim' year:=1996 title='Mars Attacks!'", errors=[])
