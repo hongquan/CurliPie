@@ -60,6 +60,26 @@ I don't bother to help fix the online tool above, because it is written in Go. T
 - |shlex|_: Help parse the command line in form of shell language, handle the string escaping, quoting for me.
 - |argparse|_: Help parse cURL options and arguments. Note that, cURL arguments syntax follow GNU style, which is common in Linux (and Python) world but not popular in Go world (see `this tutorial <go_tutorial_>`_), so it feels more natural with Python.
 
+
+Usage
+-----
+
+.. code-block:: python
+
+    >>> from curlipie import curl_to_httpie
+
+    >>> curl = """curl -XPUT elastic.dev/movies/_doc/1 -d '{"director": "Burton, Tim", "year": 1996, "title": "Mars Attacks!"}' -H 'Content-Type: a
+    ... pplication/json'"""
+
+    >>> curl_to_httpie(curl)
+    ConversionResult(httpie="http PUT elastic.dev/movies/_doc/1 director='Burton, Tim' year:=1996 title='Mars Attacks!'", errors=[])
+
+    >>> result = curl_to_httpie(curl)
+
+    >>> result.httpie
+    "http PUT elastic.dev/movies/_doc/1 director='Burton, Tim' year:=1996 title='Mars Attacks!'"
+
+
 .. _cURL: https://curl.haxx.se
 .. _HTTPie: https://httpie.org
 .. _curl2httpie.online: https://curl2httpie.online/
