@@ -73,7 +73,10 @@ class CURLArgumentParser(Tap):
 
     def process_args(self):
         u = yarl.URL(self.url)
-        self._url = str(u.with_fragment(None))
+        # Clean fragment, if exist
+        url = str(u.with_fragment(None))
+        # Strip leading "http://" to be short
+        self._url = url[7:] if u.scheme == 'http' else url
         self._params = u.query
         self._data = deque()
         for dstring in self.data:

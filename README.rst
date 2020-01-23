@@ -39,7 +39,7 @@ I am more comfortable with HTTPie (shorter syntax, has highlighting and is a Pyt
 
 .. code-block:: sh
 
-    http -F http://app-staging.dev/api userId=abc-xyz planAmount:=50000 isPromotion:=false createdAt='2019-12-13 10:00:00'
+    http -F app-staging.dev/api userId=abc-xyz planAmount:=50000 isPromotion:=false createdAt='2019-12-13 10:00:00'
 
 The Postman tool can generate HTTPie, but with even uglier command:
 
@@ -53,7 +53,7 @@ The Postman tool can generate HTTPie, but with even uglier command:
     }'| http  --follow --timeout 3600 POST app-staging.dev/api \
     Content-Type:'application/json'
 
-Initially, I had to to it manually and quickly got tired from it. I tried to find a conversion tool but failed. There is an online tool `curl2httpie.online`_, but it failed with above example. So I decide to write my own tool.
+Initially, I had to do conversion manually and quickly got tired from it. I tried to find a conversion tool but failed. There is an online tool `curl2httpie.online`_, but it failed with above example. So I decide to write my own tool.
 
 I don't bother to help fix the online tool above, because it is written in Go. The rich ecosystem of Python, with these built-in libraries, enable me to finish the job fast:
 
