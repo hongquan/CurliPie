@@ -58,5 +58,5 @@ def test_curl_postman_generated():
             '    "createdAt": "2019-12-13 10:00:00"'
             "}'")
     httpie = curl_to_httpie(curl)
-    assert httpie == ("""http http://stupid.site/sync-info userId=4-abc-xyz planAmount:=50000 """
+    assert httpie == ("""http -F http://stupid.site/sync-info userId=4-abc-xyz planAmount:=50000 """
                       """isPromotion:=false createdAt='2019-12-13 10:00:00'""")

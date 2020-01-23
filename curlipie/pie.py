@@ -3,6 +3,7 @@ import shlex
 import mimetypes
 from shlex import quote
 from collections import deque
+from typing import List
 
 import hh
 import orjson
@@ -11,6 +12,14 @@ from .curly import CURLArgumentParser
 
 
 REGEX_SINGLE_OPT = re.compile(r'-\w$')
+
+
+def join_previous_arg(cmds: List[str], name: str):
+    prev_arg = cmds[-1]
+    if REGEX_SINGLE_OPT.match(prev_arg):
+        cmds[-1] += name
+    else:
+        cmds.append(f'-{name}')
 
 
 def curl_to_httpie(cmd: str, long_option: bool = False) -> str:
@@ -26,6 +35,11 @@ def curl_to_httpie(cmd: str, long_option: bool = False) -> str:
     cmds = deque(['http'])
     if args.include or args.verbose:
         cmds.append('--verbose' if long_option else '-v')
+    if args.location:
+        if long_option:
+            cmds.append('--follow')
+        else:
+            join_previous_arg(cmds, 'F')
     if args.head:
         cmds.append('HEAD')
     elif args.request and not (args._data and args.request == 'POST'):
@@ -34,21 +48,13 @@ def curl_to_httpie(cmd: str, long_option: bool = False) -> str:
         if long_option:
             cmds.extend(('--auth', args.user))
         else:
-            prev_arg = cmds[-1]
-            if REGEX_SINGLE_OPT.match(prev_arg):
-                cmds[-1] += 'a'
-                cmds.append(args.user)
-            else:
-                cmds.extend(('-a', args.user))
+            join_previous_arg(cmds, 'a')
+            cmds.append(args.user)
     if args._data and not args._request_json:
         if long_option:
             cmds.append('--form')
         else:
-            prev_arg = cmds[-1]
-            if REGEX_SINGLE_OPT.match(prev_arg):
-                cmds[-1] += '-f'
-            else:
-                cmds.append('-f')
+            join_previous_arg(cmds, 'f')
     # URL
     cmds.append(args._url)
     # Headers

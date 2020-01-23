@@ -26,6 +26,7 @@ class CURLArgumentParser(Tap):
     url: str
     verbose: bool = False
     include: bool = False
+    location: bool = False
     request: Optional[str] = None
     user: Optional[str] = None
     header: List[str] = []
@@ -53,6 +54,7 @@ class CURLArgumentParser(Tap):
         self.add_argument('url')
         self.add_argument('-v', '--verbose')
         self.add_argument('-i', '--include')
+        self.add_argument('-L', '--location')
         self.add_argument('-X', '--request')
         self.add_argument('-u', '--user')
         self.add_argument('-H', '--header', nargs='?', action='append')
