@@ -10,6 +10,7 @@ import hh
 import yarl
 import orjson
 from tap import Tap
+from devtools import debug
 
 from .structures import CaseInsensitiveDict
 
@@ -30,6 +31,7 @@ class CURLArgumentParser(Tap):
     header: List[str] = []
     form: List[str] = []
     data: List[str] = []
+    data_raw: List[str] = []
     head: bool = False
     get: bool = False
     output: Optional[str] = None
@@ -55,6 +57,7 @@ class CURLArgumentParser(Tap):
         self.add_argument('-u', '--user')
         self.add_argument('-H', '--header', nargs='?', action='append')
         self.add_argument('-d', '--data', nargs='?', action='append')
+        self.add_argument('--data-raw', nargs='?', action='append')
         self.add_argument('-F', '--form')
         self.add_argument('-I', '--head')
         self.add_argument('-G', '--get')
@@ -67,7 +70,11 @@ class CURLArgumentParser(Tap):
         self._params = u.query
         self._data = deque()
         for dstring in self.data:
-            result = xparse_qsl(dstring)
+            result = parse_post_data(dstring)
+            self._data.extend(result.data)
+            self._errors.extend(result.errors)
+        for dstring in self.data_raw:
+            result = parse_post_data(dstring, ignore_at=True)
             self._data.extend(result.data)
             self._errors.extend(result.errors)
         for h in self.header:
@@ -84,7 +91,7 @@ class CURLArgumentParser(Tap):
         pass
 
 
-def xparse_qsl(string: str) -> DataArgParseResult:
+def parse_post_data(string: str, ignore_at: bool = False) -> DataArgParseResult:
     # https://ec.haxx.se/http/http-post
     if not string:
         return DataArgParseResult()
@@ -92,7 +99,7 @@ def xparse_qsl(string: str) -> DataArgParseResult:
     if data:
         return DataArgParseResult(data=data)
     # Standard parse_qsl failed to parse it
-    if '@' in string and not string.startswith('@'):
+    if not ignore_at and '@' in string and not string.startswith('@'):
         # cURL spec says that the filename should already be url-encoded.
         key, filename = string.split('@')[:2]
         return DataArgParseResult(data=[(key, filename)])
@@ -104,10 +111,11 @@ def xparse_qsl(string: str) -> DataArgParseResult:
         errors.append('@filename syntax (without field name) is not supported')
         return DataArgParseResult(data, errors)
     if string.startswith('='):
-        errors.append('@content syntax (without field name) is not supported')
+        errors.append('=content syntax (without field name) is not supported')
         return DataArgParseResult(data, errors)
     # Maybe JSON?
     try:
+        debug(string)
         jsdata = orjson.loads(string)
     except JSONDecodeError:
         # Not JSON
@@ -115,6 +123,7 @@ def xparse_qsl(string: str) -> DataArgParseResult:
         return DataArgParseResult(data, errors)
     if isinstance(jsdata, collections.abc.Mapping):
         data = list(jsdata.items())
+        debug(data)
         return DataArgParseResult(data, errors)
     errors.append('JSON content does not represent an object')
     return DataArgParseResult(errors=errors)

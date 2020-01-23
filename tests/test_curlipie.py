@@ -46,3 +46,17 @@ def test_json_value_not_primitive():
     debug(output)
     assert output == ("""http PUT elastic.dev/movies/_doc/1 genre:='["Comedy","Sci-Fi"]' """
                       """actor:='["Jack Nicholson","Pierce Brosnan","Sarah Jessica Parker"]'""")
+
+
+def test_curl_postman_generated():
+    curl = ("""curl --location --request POST 'http://stupid.site/sync-info' \\"""
+            """--header 'Content-Type: application/json' \\"""
+            "--data-raw '{"
+            '    "userId": "4-abc-xyz",'
+            '    "planAmount": 50000,'
+            '    "isPromotion": false,'
+            '    "createdAt": "2019-12-13 10:00:00"'
+            "}'")
+    httpie = curl_to_httpie(curl)
+    assert httpie == ("""http http://stupid.site/sync-info userId=4-abc-xyz planAmount:=50000 """
+                      """isPromotion:=false createdAt='2019-12-13 10:00:00'""")

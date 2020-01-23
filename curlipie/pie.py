@@ -6,6 +6,7 @@ from collections import deque
 
 import hh
 import orjson
+from devtools import debug
 from .curly import CURLArgumentParser
 
 
@@ -14,6 +15,7 @@ REGEX_SINGLE_OPT = re.compile(r'-\w$')
 
 def curl_to_httpie(cmd: str, long_option: bool = False) -> str:
     cargs = shlex.split(cmd)
+    debug(cargs)
     if not cargs:
         return ''
     if cargs[0] == 'curl':
@@ -73,11 +75,17 @@ def curl_to_httpie(cmd: str, long_option: bool = False) -> str:
             cmds.append(f'{qp}@{quote(v)}')
             continue
         # Not uploading file
+        # Python shlex's quote will turn bool value to empty string, that is not we want
+        if isinstance(v, bool):
+            js_bool = str(v).lower()
+            cmds.append(f'{qp}:={js_bool}' if not args.get else f'{qp}=={str(v)}')
+            continue
         try:
             qv = quote(v)
             cmds.append(f'{qp}={qv}' if not args.get else f'{qp}=={qv}')
         except TypeError:     # v is not string, normally after parsed from JSON
             if isinstance(v, (list, dict)):
                 v = quote(orjson.dumps(v).decode())
-            cmds.append(f'{quote(p)}:={v}' if not args.get else f'{qp}=={quote(str(v))}')
+            debug(v)
+            cmds.append(f'{qp}:={v}' if not args.get else f'{qp}=={quote(str(v))}')
     return ' '.join(cmds)
