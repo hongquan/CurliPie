@@ -17,6 +17,7 @@ first = "^2.0.2"
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
 devtools = "^0.5.1"
+pytest-flake8 = "^1.0.4"
 
 [build-system]
 requires = ["poetry>=0.12"]
