@@ -1,8 +1,22 @@
 [tool.poetry]
 name = "curlipie"
-version = "0.1.0"
-description = ""
+version = "0.1.1"
+description = "Library to convert cURL command line to HTTPie"
 authors = ["Nguyễn Hồng Quân <ng.hong.quan@gmail.com>"]
+maintainers = [
+    "Nguyễn Hồng Quân <ng.hong.quan@gmail.com>"
+]
+license = "MPL-2.0"
+readme = "README.rst"
+repository = "https://github.com/hongquan/CurliPie.git"
+classifiers = [
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "Environment :: Web Environment",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Software Development :: Libraries :: Python Modules"
+]
+keywords = ["api", "http", "curl", "httpie", "cli", "conversion"]
 
 [tool.poetry.dependencies]
 python = "^3.7"

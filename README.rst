@@ -2,6 +2,8 @@
 CurliPie
 ========
 
+.. image:: https://madewithlove.now.sh/vn?heart=true&colorA=%23ffcd00&colorB=%23da251d
+.. image:: https://badgen.net/pypi/v/curlipie
 
 Python library to convert `cURL`_ command to `HTTPie`_.
 
