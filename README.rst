@@ -18,5 +18,53 @@ to
     http -f http://quan.hoabinh.vn name=admin shoesize=12 color=green food=wet
 
 
+Motivation
+----------
+
+This library was born when I join a project with a team of non-Linux, non-Python developers. Because the project doesn't have proper documentation, the other team often share API usage example to me in form of cURL command, generated from their daily-used Postman. Those cURL commands are usually ugly, like this:
+
+
+.. code-block:: sh
+
+    curl --location --request POST 'http://app-staging.dev/api' \
+    --header 'Content-Type: application/json' \
+    --data-raw '{
+        "userId": "abc-xyz",
+        "planAmount": 50000,
+        "isPromotion": false,
+        "createdAt": "2019-12-13 10:00:00"
+    }'
+
+I am more comfortable with HTTPie (shorter syntax, has highlighting and is a Python application), so I often convert it to HTTPie:
+
+.. code-block:: sh
+
+    http -F http://app-staging.dev/api userId=abc-xyz planAmount:=50000 isPromotion:=false createdAt='2019-12-13 10:00:00'
+
+The Postman tool can generate HTTPie, but with even uglier command:
+
+.. code-block:: sh
+
+    printf '{
+        "userId": "abc-xyz",
+        "planAmount": 50000,
+        "isPromotion": false,
+        "createdAt": "2019-12-13 10:00:00"
+    }'| http  --follow --timeout 3600 POST app-staging.dev/api \
+    Content-Type:'application/json'
+
+Initially, I had to to it manually and quickly got tired from it. I tried to find a conversion tool but failed. There is an online tool `curl2httpie.online`_, but it failed with above example. So I decide to write my own tool.
+
+I don't bother to help fix the online tool above, because it is written in Go. The rich ecosystem of Python, with these built-in libraries, enable me to finish the job fast:
+
+- |shlex|_: Help parse the command line in form of shell language, handle the string escaping, quoting for me.
+- |argparse|_: Help parse cURL options and arguments. Note that, cURL arguments syntax follow GNU style, which is common in Linux (and Python) world but not popular in Go world (see `this tutorial <go_tutorial_>`_), so it feels more natural with Python.
+
 .. _cURL: https://curl.haxx.se
 .. _HTTPie: https://httpie.org
+.. _curl2httpie.online: https://curl2httpie.online/
+.. |shlex| replace:: ``shlex``
+.. _shlex: https://docs.python.org/3/library/shlex.html
+.. |argparse| replace:: ``argparse``
+.. _argparse: https://docs.python.org/3/library/argparse.html
+.. _go_tutorial: https://gobyexample.com/command-line-flags
