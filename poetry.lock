@@ -51,6 +51,14 @@ pygments = ["Pygments (>=2.2.0)"]
 
 [[package]]
 category = "main"
+description = "Return the first true value of an iterable."
+name = "first"
+optional = false
+python-versions = "*"
+version = "2.0.2"
+
+[[package]]
+category = "main"
 description = "The enumeration of HTTP headers."
 name = "hh"
 optional = false
@@ -260,7 +268,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["pathlib2", "contextlib2", "unittest2"]
 
 [metadata]
-content-hash = "b14c105c75e4352e0012b69eb55665d6e2c7f54309d6e7135482d27a0b3c9419"
+content-hash = "a4f5038a99d158230e530b580622a72e13e5f104e0c87df8a76bda24650026a8"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -283,6 +291,10 @@ colorama = [
 devtools = [
     {file = "devtools-0.5.1-py35.py36-none-any.whl", hash = "sha256:7a1f7db6ade0a71840ca4014d75dd72390aed2ef04e39e2b2445af7b3a3f4679"},
     {file = "devtools-0.5.1.tar.gz", hash = "sha256:51ca8d2e15b8a862875a4837db2bafbc6cda409c069e960aec3f4bbd91fe9c08"},
+]
+first = [
+    {file = "first-2.0.2-py2.py3-none-any.whl", hash = "sha256:8d8e46e115ea8ac652c76123c0865e3ff18372aef6f03c22809ceefcea9dec86"},
+    {file = "first-2.0.2.tar.gz", hash = "sha256:ff285b08c55f8c97ce4ea7012743af2495c9f1291785f163722bd36f6af6d3bf"},
 ]
 hh = [
     {file = "hh-2.0.0-py2.py3-none-any.whl", hash = "sha256:4e7a8c789bc4d72b2996b1b67674bf8a8c0719074513ddfd3d32f7cd1ca99797"},

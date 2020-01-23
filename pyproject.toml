@@ -12,6 +12,7 @@ hh = "^2.0.0"
 CaseInsensitiveDict = "^1.0.0"
 yarl = "^1.4.2"
 orjson = "^2.2.0"
+first = "^2.0.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
