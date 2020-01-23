@@ -1,3 +1,4 @@
+import re
 import shlex
 import mimetypes
 from shlex import quote
@@ -6,6 +7,9 @@ from collections import deque
 import hh
 import orjson
 from .curly import CURLArgumentParser
+
+
+REGEX_SINGLE_OPT = re.compile(r'-\w$')
 
 
 def curl_to_httpie(cmd: str, long_option: bool = False) -> str:
@@ -28,9 +32,21 @@ def curl_to_httpie(cmd: str, long_option: bool = False) -> str:
         if long_option:
             cmds.extend(('--auth', args.user))
         else:
-            cmds.extend(('-a', args.user))
+            prev_arg = cmds[-1]
+            if REGEX_SINGLE_OPT.match(prev_arg):
+                cmds[-1] += 'a'
+                cmds.append(args.user)
+            else:
+                cmds.extend(('-a', args.user))
     if args._data and not args._request_json:
-        cmds.append('--form' if long_option else '-f')
+        if long_option:
+            cmds.append('--form')
+        else:
+            prev_arg = cmds[-1]
+            if REGEX_SINGLE_OPT.match(prev_arg):
+                cmds[-1] += '-f'
+            else:
+                cmds.append('-f')
     # URL
     cmds.append(args._url)
     # Headers
