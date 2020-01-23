@@ -4,14 +4,20 @@ import mimetypes
 from shlex import quote
 from collections import deque
 from typing import List
+from dataclasses import dataclass, field
 
 import hh
 import orjson
-from devtools import debug
 from .curly import CURLArgumentParser
 
 
 REGEX_SINGLE_OPT = re.compile(r'-\w$')
+
+
+@dataclass
+class ConversionResult:
+    httpie: str
+    errors: List[str] = field(default_factory=list)
 
 
 def join_previous_arg(cmds: List[str], name: str):
@@ -22,15 +28,14 @@ def join_previous_arg(cmds: List[str], name: str):
         cmds.append(f'-{name}')
 
 
-def curl_to_httpie(cmd: str, long_option: bool = False) -> str:
+def curl_to_httpie(cmd: str, long_option: bool = False) -> ConversionResult:
     cargs = shlex.split(cmd)
-    debug(cargs)
     if not cargs:
-        return ''
+        return ConversionResult('')
     if cargs[0] == 'curl':
         cargs = cargs[1:]
         if not cargs:
-            return 'http'
+            return ConversionResult('http')
     args = CURLArgumentParser().parse_args(cargs)
     cmds = deque(['http'])
     if args.verbose:
@@ -103,9 +108,8 @@ def curl_to_httpie(cmd: str, long_option: bool = False) -> str:
         except TypeError:     # v is not string, normally after parsed from JSON
             if isinstance(v, (list, dict)):
                 v = quote(orjson.dumps(v).decode())
-            debug(v)
             cmds.append(f'{qp}:={v}' if not args.get else f'{qp}=={quote(str(v))}')
     if args.output:
         param = '-o' if not long_option else '--output'
         cmds.extend((param, quote(args.output)))
-    return ' '.join(cmds)
+    return ConversionResult(' '.join(cmds), args._errors)

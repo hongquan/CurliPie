@@ -10,7 +10,6 @@ import hh
 import yarl
 import orjson
 from tap import Tap
-from devtools import debug
 
 from .structures import CaseInsensitiveDict
 
@@ -125,15 +124,13 @@ def parse_post_data(string: str, ignore_at: bool = False) -> DataArgParseResult:
         return DataArgParseResult(data, errors)
     # Maybe JSON?
     try:
-        debug(string)
         jsdata = orjson.loads(string)
     except JSONDecodeError:
         # Not JSON
-        errors.append('Cannot guess this data format')
+        errors.append('Cannot guess post data format')
         return DataArgParseResult(data, errors)
     if isinstance(jsdata, collections.abc.Mapping):
         data = list(jsdata.items())
-        debug(data)
         return DataArgParseResult(data, errors)
     errors.append('JSON content does not represent an object')
     return DataArgParseResult(errors=errors)

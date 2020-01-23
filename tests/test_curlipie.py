@@ -28,14 +28,14 @@ test_data = (
 
 @pytest.mark.parametrize('curl, expected', test_data)
 def test_converting(curl, expected):
-    httpie = curl_to_httpie(curl)
+    httpie = curl_to_httpie(curl).httpie
     assert httpie == expected
 
 
 def test_json_form():
     curl = ("""curl -XPUT elastic.dev/movies/_doc/1 -d '{"director": "Burton, Tim", """
             """ "year": 1996, "title": "Mars Attacks!"}' -H 'Content-Type: application/json'""")
-    output = curl_to_httpie(curl)
+    output = curl_to_httpie(curl).httpie
     assert output == ("""http PUT elastic.dev/movies/_doc/1 director='Burton, Tim' """
                       """year:=1996 title='Mars Attacks!'""")
 
@@ -44,7 +44,7 @@ def test_json_value_not_primitive():
     curl = ("""curl -XPUT elastic.dev/movies/_doc/1 -d '{"genre": ["Comedy", "Sci-Fi"],"""
             """ "actor": ["Jack Nicholson","Pierce Brosnan","Sarah Jessica Parker"]}' """
             """-H 'Content-Type: application/json'""")
-    output = curl_to_httpie(curl)
+    output = curl_to_httpie(curl).httpie
     debug(output)
     assert output == ("""http PUT elastic.dev/movies/_doc/1 genre:='["Comedy","Sci-Fi"]' """
                       """actor:='["Jack Nicholson","Pierce Brosnan","Sarah Jessica Parker"]'""")
@@ -59,6 +59,6 @@ def test_curl_postman_generated():
             '    "isPromotion": false,'
             '    "createdAt": "2019-12-13 10:00:00"'
             "}'")
-    httpie = curl_to_httpie(curl)
+    httpie = curl_to_httpie(curl).httpie
     assert httpie == ("""http -F stupid.site/sync-info userId=4-abc-xyz planAmount:=50000 """
                       """isPromotion:=false createdAt='2019-12-13 10:00:00'""")
