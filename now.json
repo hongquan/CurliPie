@@ -1,0 +1,13 @@
+{
+    "name": "curlipie",
+    "version": 2,
+    "functions": {
+        "api/main.py": {
+            "memory": 128,
+            "excludeFiles": "dist"
+        }
+    },
+    "routes": [
+        {"src": "/api/", "dest": "/api/main.py"}
+    ]
+}
