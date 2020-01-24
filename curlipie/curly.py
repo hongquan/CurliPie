@@ -8,8 +8,9 @@ from json.decoder import JSONDecodeError
 
 import hh
 import yarl
-import orjson
 from tap import Tap
+
+from .compat import json_load
 
 
 @dataclass
@@ -27,6 +28,7 @@ class CURLArgumentParser(Tap):
     insecure: bool = False
     remote_name: bool = False
     max_redirs: int = 0
+    max_time: float = 0
     request: Optional[str] = None
     user: Optional[str] = None
     header: List[str] = []
@@ -58,6 +60,7 @@ class CURLArgumentParser(Tap):
         self.add_argument('-k', '--insecure')
         self.add_argument('-O', '--remote-name')
         self.add_argument('-X', '--request')
+        self.add_argument('-m', '--max-time')
         self.add_argument('-u', '--user')
         self.add_argument('-H', '--header', nargs='?', action='append')
         self.add_argument('-d', '--data', nargs='?', action='append')
@@ -122,7 +125,7 @@ def parse_post_data(string: str, ignore_at: bool = False) -> DataArgParseResult:
         return DataArgParseResult(data, errors)
     # Maybe JSON?
     try:
-        jsdata = orjson.loads(string)
+        jsdata = json_load(string)
     except JSONDecodeError:
         # Not JSON
         errors.append('Cannot guess post data format')

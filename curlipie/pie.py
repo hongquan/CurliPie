@@ -7,7 +7,7 @@ from typing import List
 
 import hh
 import attr
-import orjson
+from .compat import json_dump
 from .curly import CURLArgumentParser
 
 
@@ -67,6 +67,8 @@ def curl_to_httpie(cmd: str, long_option: bool = False) -> ConversionResult:
         cmds.append('--verify', 'no')
     if args.max_redirs:
         cmds.extend('--max-redirects', args.max_redirs)
+    if args.max_time:
+        cmds.extend('--timeout', args.max_time)
     if args.head:
         cmds.append('HEAD')
     elif args.request and not (args._data and args.request == 'POST'):
@@ -107,7 +109,7 @@ def curl_to_httpie(cmd: str, long_option: bool = False) -> ConversionResult:
             cmds.append(f'{qp}={qv}' if not args.get else f'{qp}=={qv}')
         except TypeError:     # v is not string, normally after parsed from JSON
             if isinstance(v, (list, dict)):
-                v = quote(orjson.dumps(v).decode())
+                v = quote(json_dump(v))
             cmds.append(f'{qp}:={v}' if not args.get else f'{qp}=={quote(str(v))}')
     if args.output:
         param = '-o' if not long_option else '--output'
