@@ -81,6 +81,16 @@ Usage
     "http PUT elastic.dev/movies/_doc/1 director='Burton, Tim' year:=1996 title='Mars Attacks!'"
 
 
+Online tool
+-----------
+
+CurliPie is not very usable if it stays in library form, so I made an online tool for you to use it quickly:
+
+https://curlipie.now.sh/
+
+The site also provide HTTP API for you to develop a client for it.
+
+
 .. _cURL: https://curl.haxx.se
 .. _HTTPie: https://httpie.org
 .. _curl2httpie.online: https://curl2httpie.online/
