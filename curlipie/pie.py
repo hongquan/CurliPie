@@ -4,9 +4,9 @@ import mimetypes
 from shlex import quote
 from collections import deque
 from typing import List
-from dataclasses import dataclass, field
 
 import hh
+import attr
 import orjson
 from .curly import CURLArgumentParser
 
@@ -14,10 +14,10 @@ from .curly import CURLArgumentParser
 REGEX_SINGLE_OPT = re.compile(r'-\w$')
 
 
-@dataclass
+@attr.s(auto_attribs=True)
 class ConversionResult:
     httpie: str
-    errors: List[str] = field(default_factory=list)
+    errors: List[str] = attr.Factory(list)
 
 
 def join_previous_arg(cmds: List[str], name: str):

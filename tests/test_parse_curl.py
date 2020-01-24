@@ -2,7 +2,6 @@ import shlex
 
 from devtools import debug
 from curlipie.curly import CURLArgumentParser
-from curlipie.structures import CaseInsensitiveDict
 
 
 def parsed_args(cmd_args_string):
@@ -49,7 +48,7 @@ def test_headers():
     debug(args.header)
     assert args.header == ['Content-Type: application/json', 'Host: quan.hoabinh.vn']
     debug(args._headers)
-    assert args._headers == CaseInsensitiveDict([('Host', 'quan.hoabinh.vn')])
+    assert args._headers == {'Host': 'quan.hoabinh.vn'}
     assert args._request_json
 
 

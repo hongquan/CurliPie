@@ -1,6 +1,6 @@
 
 import collections.abc
-from typing import List, Optional, Tuple
+from typing import List, Optional, Tuple, Dict
 from dataclasses import dataclass, field
 from collections import OrderedDict, deque
 from urllib.parse import parse_qsl
@@ -10,8 +10,6 @@ import hh
 import yarl
 import orjson
 from tap import Tap
-
-from .structures import CaseInsensitiveDict
 
 
 @dataclass
@@ -43,7 +41,7 @@ class CURLArgumentParser(Tap):
     _url: str = ''
     _params: List[Tuple[str, str]] = []
     _data: List[Tuple[str, str]] = []
-    _headers: Optional[CaseInsensitiveDict] = None
+    _headers: Dict[str, str] = {}
     _request_json: bool = False
     _errors: List[str] = []
 
@@ -68,7 +66,7 @@ class CURLArgumentParser(Tap):
         self.add_argument('-I', '--head')
         self.add_argument('-G', '--get')
         self.add_argument('-o', '--output')
-        self._headers = CaseInsensitiveDict()
+        self._headers = {}
 
     def process_args(self):
         u = yarl.URL(self.url)
