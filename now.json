@@ -8,6 +8,8 @@
         }
     },
     "routes": [
-        {"src": "/api/", "dest": "/api/main.py"}
+        {"src": "/api/", "dest": "/api/main.py"},
+        {"src": "/docs", "dest": "/api/main.py"},
+        {"src": "/redoc", "dest": "/api/main.py"}
     ]
 }

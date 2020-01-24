@@ -14,7 +14,7 @@
       </row>
     </container>
 
-    <h2>Result</h2>
+    <h2>Result (<a href='/redoc'>API documentation</a>)</h2>
     <pre v-highlightjs="result.httpie"><code class='bash'></code></pre>
   </div>
 </template>

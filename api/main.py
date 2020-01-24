@@ -2,8 +2,9 @@ import attr
 from fastapi import FastAPI
 from pydantic import BaseModel
 from curlipie import curl_to_httpie
+from starlette.responses import RedirectResponse
 
-app = FastAPI(debug=True)
+app = FastAPI(debug=True, title='CurliPie online API')
 
 
 class CurlCmd(BaseModel):
@@ -13,7 +14,7 @@ class CurlCmd(BaseModel):
 
 @app.get("/")
 def hello():
-    return 'Hello'
+    return RedirectResponse('/redoc')
 
 
 @app.post("/api/")
