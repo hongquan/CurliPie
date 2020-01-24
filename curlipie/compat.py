@@ -10,9 +10,9 @@ try:
 except ModuleNotFoundError:
     try:
         import rapidjson
-        json_dump = rapidjson.dumps
+        json_dump = functools.partial(rapidjson.dumps, ensure_ascii=False)
         json_load = rapidjson.loads
     except ModuleNotFoundError:
         import json
-        json_dump = functools.partial(json.dumps, separators=(',', ':'))
+        json_dump = functools.partial(json.dumps, ensure_ascii=False, separators=(',', ':'))
         json_load = json.loads

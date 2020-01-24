@@ -29,7 +29,10 @@ def join_previous_arg(cmds: List[str], name: str):
 
 
 def curl_to_httpie(cmd: str, long_option: bool = False) -> ConversionResult:
-    cargs = shlex.split(cmd)
+    # The cmd can be multiline string, with escape symbols, shlex doesn't support it, so
+    # we should convert it to one-line first.
+    oneline = ''.join(cmd.splitlines())
+    cargs = shlex.split(oneline)
     if not cargs:
         return ConversionResult('')
     if cargs[0] == 'curl':
@@ -55,12 +58,13 @@ def curl_to_httpie(cmd: str, long_option: bool = False) -> ConversionResult:
             cmds.append('--form')
         else:
             join_previous_arg(cmds, 'f')
-    if args.user:
+    if args.user or args._basic_auth:
+        user = args.user or args._basic_auth
         if long_option:
-            cmds.extend(('--auth', args.user))
+            cmds.extend(('--auth', user))
         else:
             join_previous_arg(cmds, 'a')
-            cmds.append(args.user)
+            cmds.append(user)
     if args.include:
         cmds.append('--all')
     if args.insecure:
@@ -81,6 +85,8 @@ def curl_to_httpie(cmd: str, long_option: bool = False) -> ConversionResult:
     if args._request_json and not args._data:
         mime = mimetypes.types_map['.json']
         cmds.append(f'{quote(hh.CONTENT_TYPE)}:{quote(mime)}')
+    if args.user_agent:
+        cmds.append(f'{hh.USER_AGENT}:{quote(args.user_agent)}')
     # Params
     for k, v in args._params:
         if k.startswith('-'):

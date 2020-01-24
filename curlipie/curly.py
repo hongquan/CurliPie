@@ -1,4 +1,6 @@
 
+import base64
+import binascii
 import collections.abc
 from typing import List, Optional, Tuple, Dict
 from dataclasses import dataclass, field
@@ -35,12 +37,14 @@ class CURLArgumentParser(Tap):
     form: List[str] = []
     data: List[str] = []
     data_raw: List[str] = []
+    user_agent: Optional[str] = None
     head: bool = False
     get: bool = False
     output: Optional[str] = None
     http2: bool = False
     # Intermediate converted data
     _url: str = ''
+    _basic_auth: str = ''
     _params: List[Tuple[str, str]] = []
     _data: List[Tuple[str, str]] = []
     _headers: Dict[str, str] = {}
@@ -65,7 +69,8 @@ class CURLArgumentParser(Tap):
         self.add_argument('-H', '--header', nargs='?', action='append')
         self.add_argument('-d', '--data', nargs='?', action='append')
         self.add_argument('--data-raw', nargs='?', action='append')
-        self.add_argument('-F', '--form')
+        self.add_argument('-F', '--form', nargs='?', action='append')
+        self.add_argument('-A', '--user-agent')
         self.add_argument('-I', '--head')
         self.add_argument('-G', '--get')
         self.add_argument('-o', '--output')
@@ -87,12 +92,22 @@ class CURLArgumentParser(Tap):
             result = parse_post_data(dstring, ignore_at=True)
             self._data.extend(result.data)
             self._errors.extend(result.errors)
+        for dstring in self.form:
+            result = parse_post_data(dstring)
+            self._data.extend(result.data)
+            self._errors.extend(result.errors)
         for h in self.header:
             k, v = h.split(':')
             k = k.strip()     # type: str
             v = v.strip()     # type: str
             if k.lower() == hh.CONTENT_TYPE.lower() and v.lower().endswith('/json'):
                 self._request_json = True
+                continue
+            if k.lower() == hh.AUTHORIZATION.lower() and v.startswith('Basic '):
+                try:
+                    self._basic_auth = base64.b64decode(v.split()[1]).decode()
+                except binascii.Error:
+                    self._errors.append('Authorization info could not be base64 decoded.')
                 continue
             self._headers[k] = v
 

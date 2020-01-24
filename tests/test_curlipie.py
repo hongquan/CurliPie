@@ -62,3 +62,27 @@ def test_curl_postman_generated():
     httpie = curl_to_httpie(curl).httpie
     assert httpie == ("""http -F stupid.site/sync-info userId=4-abc-xyz planAmount:=50000 """
                       """isPromotion:=false createdAt='2019-12-13 10:00:00'""")
+
+
+def test_multi_line():
+    curl = ("""curl -X POST \\\nhttp://172.16.0.19/api/access-cards/2392919198/call-elevator \\\n-H 'Accept: */*' """
+            """\\\n-H 'Accept-Encoding: gzip, deflate' \\\n-H 'Authorization: """
+            """Basic dXNlcjp4eHg=' \\\n-H 'Cache-Control: no-cache' """
+            """\\\n-H 'Connection: keep-alive' \\\n-H 'Content-Length: 407' \\\n"""
+            """-H 'Content-Type: multipart/form-data; boundary=--------------------------539724411903816199149731' """
+            """\\\n-H 'Host: 172.16.0.19' \\\n-H 'Postman-Token: 24e4f6f7' \\\n"""
+            """-H 'User-Agent: PostmanRuntime/7.19.0' """
+            """\\\n-H 'cache-control: no-cache' \\\n-H 'content-type: multipart/form-data; """
+            """boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW' \\\n"""
+            """-F boarding_floor=1 \\\n-F destination_floor=9 \\\n-F elevator_bank_number=3""")
+    httpie = curl_to_httpie(curl).httpie
+    debug(httpie)
+    assert httpie == ("""http -fa user:xxx 172.16.0.19/api/access-cards/2392919198/call-elevator """
+                      """Accept:'*/*' Accept-Encoding:'gzip, deflate' Cache-Control:no-cache """
+                      """Connection:keep-alive Content-Length:407 """
+                      """Content-Type:'multipart/form-data; """
+                      """boundary=--------------------------539724411903816199149731' """
+                      """Host:172.16.0.19 Postman-Token:24e4f6f7 User-Agent:PostmanRuntime/7.19.0 """
+                      """cache-control:no-cache content-type:'multipart/form-data; """
+                      """boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW' """
+                      """boarding_floor=1 destination_floor=9 elevator_bank_number=3""")
