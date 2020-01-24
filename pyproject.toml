@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "curlipie"
-version = "0.3"
+version = "0.4"
 description = "Library to convert cURL command line to HTTPie"
 authors = ["Nguyễn Hồng Quân <ng.hong.quan@gmail.com>"]
 maintainers = [
@@ -24,9 +24,9 @@ typed-argument-parser = "^1.4"
 multidict = "^4.7.4"
 hh = "^2.0.0"
 yarl = "^1.4.2"
-orjson = "^2.2.0"
+orjson = { version = "^2.2.0", markers = "python_version >= 3.7" }
 first = "^2.0.2"
-python-rapidjson = "^0.9.1"
+python-rapidjson = { version = "^0.9.1", markers = "python_version ~= 3.6" }
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

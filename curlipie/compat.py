@@ -1,3 +1,4 @@
+import functools
 
 try:
     import orjson
@@ -6,7 +7,12 @@ try:
         return orjson.dumps(o).decode()
     json_dump = orjson_dump
     json_load = orjson.loads
-except ImportError:
-    import rapidjson
-    json_dump = rapidjson.dumps
-    json_dump = rapidjson.dumps
+except ModuleNotFoundError:
+    try:
+        import rapidjson
+        json_dump = rapidjson.dumps
+        json_load = rapidjson.loads
+    except ModuleNotFoundError:
+        import json
+        json_dump = functools.partial(json.dumps, separators=(',', ':'))
+        json_load = json.loads
