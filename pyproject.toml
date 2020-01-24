@@ -24,9 +24,9 @@ typed-argument-parser = "^1.4"
 multidict = "^4.7.4"
 hh = "^2.0.0"
 yarl = "^1.4.2"
-orjson = { version = "^2.2.0", markers = "python_version >= 3.7" }
+orjson = { version = "^2.2.0", markers = "python_version >= '3.7'" }
 first = "^2.0.2"
-python-rapidjson = { version = "^0.9.1", markers = "python_version ~= 3.6" }
+python-rapidjson = { version = "^0.9.1", markers = "python_version ~= '3.6'" }
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
