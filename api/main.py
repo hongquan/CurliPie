@@ -15,12 +15,12 @@ class CurlCmd(BaseModel):
 
 
 @app.get("/")
-def hello():
+async def hello():
     return RedirectResponse('/redoc')
 
 
 @app.post("/api/")
-def convert(cmd: CurlCmd):
+async def convert(cmd: CurlCmd):
     try:
         result = curl_to_httpie(cmd.curl, cmd.long_option)
     except TypeError as e:
