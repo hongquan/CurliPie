@@ -1,5 +1,6 @@
 import re
 import shlex
+import logging
 import mimetypes
 from shlex import quote
 from collections import deque
@@ -12,6 +13,7 @@ from .curly import CURLArgumentParser
 
 
 REGEX_SINGLE_OPT = re.compile(r'-\w$')
+logger = logging.getLogger(__name__)
 
 
 @attr.s(auto_attribs=True)
@@ -32,7 +34,11 @@ def curl_to_httpie(cmd: str, long_option: bool = False) -> ConversionResult:
     # The cmd can be multiline string, with escape symbols, shlex doesn't support it, so
     # we should convert it to one-line first.
     oneline = ''.join(cmd.splitlines())
-    cargs = shlex.split(oneline)
+    try:
+        cargs = shlex.split(oneline)
+    except ValueError as e:
+        logger.error('Failed to parse as shell command. Error: %s', e)
+        return ConversionResult(errors=[str(e)])
     if not cargs:
         return ConversionResult('')
     if cargs[0] == 'curl':
