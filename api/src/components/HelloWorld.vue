@@ -16,8 +16,51 @@
 
     <h2>Result (<a href='/redoc'>API documentation</a>)</h2>
     <pre v-highlightjs="result.httpie"><code class='bash'></code></pre>
+    <ul class="errors">
+      <li v-for="(e, i) of result.errors" :key="i">{{ e }}</li>
+    </ul>
   </div>
 </template>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+h3 {
+  margin: 40px 0 0;
+}
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+li {
+  display: inline-block;
+  margin: 0 10px;
+}
+a {
+  color: #42b983;
+  text-decoration: none;
+}
+h2 {
+  margin-top: 0;
+}
+.vue-form {
+  width: 100%
+}
+.vue-form textarea {
+  width: 100%;
+  font-family: 'Courier New', Courier, monospace
+}
+code {
+  font-size: large;
+}
+.errors {
+  background-color: lightcoral;
+  text-align: left;
+}
+.errors li {
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+</style>
 
 <script>
 import {Form, FormItem, Input} from 'vfc'
@@ -60,17 +103,15 @@ export default {
         return response.json();
       })
       .then((data) => {
-        console.log('Success:', data);
         vm.result = data;
       })
       .catch((error) => {
         console.error('Error:', error);
       });
-    }
+    },
   },
   watch: {
     curl () {
-      console.log('Changed'),
       this.debouncedConvert()
     }
   },
@@ -79,32 +120,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-  text-decoration: none;
-}
-.vue-form {
-  width: 100%
-}
-.vue-form textarea {
-  width: 100%;
-  font-family: 'Courier New', Courier, monospace
-}
-code {
-  font-size: large;
-}
-</style>

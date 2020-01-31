@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@liqueflies/vue-grid": "^0.0.4",
+    "copy-webpack-plugin": "^5.1.1",
     "core-js": "^3.4.4",
     "vfc": "^2.0.0",
     "vue": "^2.6.10",
