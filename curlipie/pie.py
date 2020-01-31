@@ -38,7 +38,7 @@ def curl_to_httpie(cmd: str, long_option: bool = False) -> ConversionResult:
         cargs = shlex.split(oneline)
     except ValueError as e:
         logger.error('Failed to parse as shell command. Error: %s', e)
-        return ConversionResult(errors=[str(e)])
+        return ConversionResult('', errors=[str(e)])
     if not cargs:
         return ConversionResult('')
     if cargs[0] == 'curl':
