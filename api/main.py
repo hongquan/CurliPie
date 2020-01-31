@@ -1,5 +1,6 @@
 import attr
 import logbook
+from logbook.compat import LoggingHandler
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from curlipie import curl_to_httpie
@@ -7,6 +8,7 @@ from starlette.responses import RedirectResponse
 
 app = FastAPI(debug=True, title='CurliPie online API')
 logger = logbook.Logger(__name__, logbook.DEBUG)
+LoggingHandler().push_application()
 
 
 class CurlCmd(BaseModel):
