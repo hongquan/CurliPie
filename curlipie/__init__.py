@@ -1,6 +1,7 @@
 from pathlib import Path
 
-from .ver import get_version
+from single_version import get_version
+
 from .pie import curl_to_httpie, ConversionResult   # NOQA
 
 
