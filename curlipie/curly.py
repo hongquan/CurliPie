@@ -10,6 +10,7 @@ from json.decoder import JSONDecodeError
 
 import hh
 import yarl
+from devtools import debug
 from tap import Tap
 
 from .compat import json_load
@@ -27,7 +28,11 @@ class CURLArgumentParser(Tap):
     verbose: bool = False
     include: bool = False
     location: bool = False
+    silent: bool = False
     insecure: bool = False
+    tlsv1: bool = False
+    sslv2: bool = False
+    sslv3: bool = False
     remote_name: bool = False
     max_redirs: int = 0
     max_time: float = 0
@@ -61,7 +66,11 @@ class CURLArgumentParser(Tap):
         self.add_argument('-v', '--verbose')
         self.add_argument('-i', '--include')
         self.add_argument('-L', '--location')
+        self.add_argument('-s', '--silent')
         self.add_argument('-k', '--insecure')
+        self.add_argument('-1', '--tlsv1')
+        self.add_argument('-2', '--sslv2')
+        self.add_argument('-3', '--sslv3')
         self.add_argument('-O', '--remote-name')
         self.add_argument('-X', '--request')
         self.add_argument('-m', '--max-time')
@@ -79,10 +88,11 @@ class CURLArgumentParser(Tap):
     def process_args(self):
         u = yarl.URL(self.url)
         # Clean fragment, if exist
-        url = str(u.with_fragment(None))
+        url = str(u.with_fragment(None).with_query(None))
+        debug(url)
         # Strip leading "http://" to be short
         self._url = url[7:] if u.scheme == 'http' else url
-        self._params = u.query
+        self._params = deque(u.query.items())
         self._data = deque()
         for dstring in self.data:
             result = parse_post_data(dstring)

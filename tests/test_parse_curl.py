@@ -63,3 +63,9 @@ def test_post_data():
     args = parsed_args(cmline)
     assert args.request == 'POST'
     assert args.data == ['username=yourusername&password=yourpassword']
+
+
+def test_query_params():
+    cmline = '-sL "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x2EE0EA64E40A89B84B2DF73499E82A75642AC823"'
+    args = parsed_args(cmline)
+    assert tuple(args._params) == (('op', 'get'), ('search', '0x2EE0EA64E40A89B84B2DF73499E82A75642AC823'))

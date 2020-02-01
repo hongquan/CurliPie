@@ -22,7 +22,9 @@ test_data = (
     ("curl -X POST http://quan.hoabinh.vn -d 'username=yourusername&password=yourpassword'",
      "http -f quan.hoabinh.vn username=yourusername password=yourpassword"),
     ("curl -X POST http://quan.hoabinh.vn/api/users --user admin:xxx -d name=meow",
-     "http -fa admin:xxx quan.hoabinh.vn/api/users name=meow")
+     "http -fa admin:xxx quan.hoabinh.vn/api/users name=meow"),
+    ('curl -sL "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x2EE0EA64E40A89B84B2DF73499E82A75642AC823"',
+     'http -F https://keyserver.ubuntu.com/pks/lookup op==get search==0x2EE0EA64E40A89B84B2DF73499E82A75642AC823')
 )
 
 

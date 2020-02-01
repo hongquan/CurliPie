@@ -50,6 +50,7 @@ def curl_to_httpie(cmd: str, long_option: bool = False) -> ConversionResult:
     if args.verbose:
         cmds.append('--verbose' if long_option else '-v')
     if args.location:
+        print('Need follow')
         if long_option:
             cmds.append('--follow')
         else:
