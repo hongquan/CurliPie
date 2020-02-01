@@ -28,15 +28,27 @@ class CURLArgumentParser(Tap):
     verbose: bool = False
     include: bool = False
     location: bool = False
+    append: bool = False
     silent: bool = False
+    fail: bool = False
+    show_error: bool = False
+    globoff: bool = False
     insecure: bool = False
+    http1_0: bool = False
     tlsv1: bool = False
     sslv2: bool = False
     sslv3: bool = False
+    netrc: bool = False
+    proxytunnel: bool = False
+    use_ascii: bool = False
+    no_buffer: bool = False
     remote_name: bool = False
+    remote_time: bool = False
+    remote_header_name: bool = False
     max_redirs: int = 0
     max_time: float = 0
     request: Optional[str] = None
+    proxy: Optional[str] = None
     user: Optional[str] = None
     header: List[str] = []
     form: List[str] = []
@@ -66,14 +78,26 @@ class CURLArgumentParser(Tap):
         self.add_argument('-v', '--verbose')
         self.add_argument('-i', '--include')
         self.add_argument('-L', '--location')
+        self.add_argument('-a', '--append')
         self.add_argument('-s', '--silent')
+        self.add_argument('-f', '--fail')
+        self.add_argument('-S', '--show-error')
+        self.add_argument('-g', '--globoff')
         self.add_argument('-k', '--insecure')
+        self.add_argument('-0', '--http1.0', dest='http1_0')
         self.add_argument('-1', '--tlsv1')
         self.add_argument('-2', '--sslv2')
         self.add_argument('-3', '--sslv3')
+        self.add_argument('-n', '--netrc')
+        self.add_argument('-p', '--proxytunnel')
+        self.add_argument('-B', '--use-ascii')
+        self.add_argument('-N', '--no-buffer')
         self.add_argument('-O', '--remote-name')
+        self.add_argument('-R', '--remote-time')
+        self.add_argument('-J', '--remote-header-name')
         self.add_argument('-X', '--request')
         self.add_argument('-m', '--max-time')
+        self.add_argument('-x', '--proxy', nargs='?')
         self.add_argument('-u', '--user')
         self.add_argument('-H', '--header', nargs='?', action='append')
         self.add_argument('-d', '--data', nargs='?', action='append')

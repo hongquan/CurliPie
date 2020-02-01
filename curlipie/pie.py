@@ -50,7 +50,6 @@ def curl_to_httpie(cmd: str, long_option: bool = False) -> ConversionResult:
     if args.verbose:
         cmds.append('--verbose' if long_option else '-v')
     if args.location:
-        print('Need follow')
         if long_option:
             cmds.append('--follow')
         else:
@@ -65,6 +64,8 @@ def curl_to_httpie(cmd: str, long_option: bool = False) -> ConversionResult:
             cmds.append('--form')
         else:
             join_previous_arg(cmds, 'f')
+    if args.proxy:
+        cmds.extend(('--proxy', args.proxy))
     if args.user or args._basic_auth:
         user = args.user or args._basic_auth
         if long_option:
