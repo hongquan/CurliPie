@@ -69,14 +69,16 @@ def curl_to_httpie(cmd: str, long_option: bool = False) -> ConversionResult:
     if args.user or args._basic_auth:
         user = args.user or args._basic_auth
         if long_option:
-            cmds.extend(('--auth', user))
+            cmds.extend(('--auth', quote(user)))
         else:
             join_previous_arg(cmds, 'a')
-            cmds.append(user)
+            cmds.append(quote(user))
     if args.include:
         cmds.append('--all')
     if args.insecure:
         cmds.append('--verify', 'no')
+    elif args.cacert:
+        cmds.extend(('--verify', args.cacert))
     if args.max_redirs:
         cmds.extend('--max-redirects', args.max_redirs)
     if args.max_time:

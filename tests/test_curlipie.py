@@ -24,7 +24,11 @@ test_data = (
     ("curl -X POST http://quan.hoabinh.vn/api/users --user admin:xxx -d name=meow",
      "http -fa admin:xxx quan.hoabinh.vn/api/users name=meow"),
     ('curl -sL "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x2EE0EA64E40A89B84B2DF73499E82A75642AC823"',
-     'http -F https://keyserver.ubuntu.com/pks/lookup op==get search==0x2EE0EA64E40A89B84B2DF73499E82A75642AC823')
+     'http -F https://keyserver.ubuntu.com/pks/lookup op==get search==0x2EE0EA64E40A89B84B2DF73499E82A75642AC823'),
+    ('curl -u "$USER:$PASS" "https://analysiscenter.veracode.com/api/5.0/uploadlargefile.do?'
+     'app_id=$APP_ID&filename=file.bca" --cacert ~/Desktop/cert.pem',
+     "http -a '$USER:$PASS' --verify ~/Desktop/cert.pem "
+     "https://analysiscenter.veracode.com/api/5.0/uploadlargefile.do app_id=='$APP_ID' filename==file.bca"),
 )
 
 
