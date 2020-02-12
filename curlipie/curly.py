@@ -50,6 +50,7 @@ class CURLArgumentParser(Tap):
     request: Optional[str] = None
     proxy: Optional[str] = None
     user: Optional[str] = None
+    cert: Optional[str] = None
     cacert: Optional[str] = None
     header: List[str] = []
     form: List[str] = []
@@ -100,6 +101,7 @@ class CURLArgumentParser(Tap):
         self.add_argument('-m', '--max-time')
         self.add_argument('-x', '--proxy', nargs='?')
         self.add_argument('-u', '--user')
+        self.add_argument('-E', '--cert')
         self.add_argument('--cacert')
         self.add_argument('-H', '--header', nargs='?', action='append')
         self.add_argument('-d', '--data', nargs='?', action='append')

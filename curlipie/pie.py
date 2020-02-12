@@ -79,6 +79,8 @@ def curl_to_httpie(cmd: str, long_option: bool = False) -> ConversionResult:
         cmds.append('--verify', 'no')
     elif args.cacert:
         cmds.extend(('--verify', args.cacert))
+    if args.cert:
+        cmds.extend(('--cert', quote(args.cert)))
     if args.max_redirs:
         cmds.extend('--max-redirects', args.max_redirs)
     if args.max_time:
