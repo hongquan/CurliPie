@@ -56,6 +56,7 @@ class CURLArgumentParser(Tap):
     form: List[str] = []
     data: List[str] = []
     data_raw: List[str] = []
+    data_binary: List[str] = []
     user_agent: Optional[str] = None
     head: bool = False
     get: bool = False
@@ -106,6 +107,7 @@ class CURLArgumentParser(Tap):
         self.add_argument('-H', '--header', nargs='?', action='append')
         self.add_argument('-d', '--data', nargs='?', action='append')
         self.add_argument('--data-raw', nargs='?', action='append')
+        self.add_argument('--data-binary', nargs='?', action='append')
         self.add_argument('-F', '--form', nargs='?', action='append')
         self.add_argument('-A', '--user-agent')
         self.add_argument('-I', '--head')

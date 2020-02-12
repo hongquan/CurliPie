@@ -29,6 +29,10 @@ test_data = (
      'app_id=$APP_ID&filename=file.bca" --cacert ~/Desktop/cert.pem',
      "http -a '$USER:$PASS' --verify ~/Desktop/cert.pem "
      "https://analysiscenter.veracode.com/api/5.0/uploadlargefile.do app_id=='$APP_ID' filename==file.bca"),
+    ('curl --data-binary "@build/veracode.bca" -H "Content-Type: binary/octet-stream" '
+     'https://analysiscenter.veracode.com/api/5.0/uploadlargefile.do',
+     'http https://analysiscenter.veracode.com/api/5.0/uploadlargefile.do '
+     'Content-Type:binary/octet-stream @build/veracode.bca')
 )
 
 

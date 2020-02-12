@@ -8,6 +8,7 @@ from typing import List
 
 import hh
 import attr
+from first import first
 from .compat import json_dump
 from .curly import CURLArgumentParser
 
@@ -129,6 +130,12 @@ def curl_to_httpie(cmd: str, long_option: bool = False) -> ConversionResult:
             if isinstance(v, (list, dict)):
                 v = quote(json_dump(v))
             cmds.append(f'{qp}:={v}' if not args.get else f'{qp}=={quote(str(v))}')
+    if args.data_binary:
+        fn = first(v for v in args.data_binary if v.startswith('@'))
+        if fn:
+            # Strip @
+            fn = fn[1:]
+            cmds.append(f'@{quote(fn)}')
     if args.output:
         param = '-o' if not long_option else '--output'
         cmds.extend((param, quote(args.output)))
