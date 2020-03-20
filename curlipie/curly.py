@@ -10,10 +10,14 @@ from json.decoder import JSONDecodeError
 
 import hh
 import yarl
-from devtools import debug
 from tap import Tap
+from devtools import debug
+from logbook import Logger
 
 from .compat import json_load
+
+
+logger = Logger(__name__)
 
 
 @dataclass
@@ -137,7 +141,11 @@ class CURLArgumentParser(Tap):
             self._data.extend(result.data)
             self._errors.extend(result.errors)
         for h in self.header:
-            k, v = h.split(':')
+            try:
+                k, v = h.split(':')
+            except ValueError:
+                logger.warning('Malformed header: {}', h)
+                continue
             k = k.strip()     # type: str
             v = v.strip()     # type: str
             if k.lower() == hh.CONTENT_TYPE.lower() and v.lower().endswith('/json'):
