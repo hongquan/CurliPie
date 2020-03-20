@@ -6,10 +6,11 @@ import VFC from 'vfc'
 import VueLodash from 'vue-lodash'
 import VueHighlightJS from 'vue-highlightjs'
 import 'vfc/dist/vfc.css'
+import lodash from 'lodash'
 
 Vue.use(VFC)
 Vue.use(VueGrid)
-Vue.use(VueLodash)
+Vue.use(VueLodash, { lodash: lodash })
 Vue.use(VueHighlightJS)
 Vue.config.productionTip = false
 
