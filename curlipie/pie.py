@@ -115,7 +115,9 @@ def curl_to_httpie(cmd: str, long_option: bool = False) -> ConversionResult:
         qp = quote(p)
         # Syntax for uploading file
         if isinstance(v, str) and v.startswith('@') and not args._request_json:
-            cmds.append(f'{qp}@{quote(v)}')
+            # Strip beginning @
+            filepath = v[1:]
+            cmds.append(f'{qp}@{quote(filepath)}')
             continue
         # Not uploading file
         # Python shlex's quote will turn bool value to empty string, that is not we want

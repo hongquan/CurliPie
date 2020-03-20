@@ -32,7 +32,9 @@ test_data = (
     ('curl --data-binary "@build/veracode.bca" -H "Content-Type: binary/octet-stream" '
      'https://analysiscenter.veracode.com/api/5.0/uploadlargefile.do',
      'http https://analysiscenter.veracode.com/api/5.0/uploadlargefile.do '
-     'Content-Type:binary/octet-stream @build/veracode.bca')
+     'Content-Type:binary/octet-stream @build/veracode.bca'),
+    ('curl -F file=@~/path/image.png http://quan.hoabinh.vn',
+     "http -f quan.hoabinh.vn file@'~/path/image.png'")
 )
 
 

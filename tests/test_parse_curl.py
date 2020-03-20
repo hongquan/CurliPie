@@ -69,3 +69,9 @@ def test_query_params():
     cmline = '-sL "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x2EE0EA64E40A89B84B2DF73499E82A75642AC823"'
     args = parsed_args(cmline)
     assert tuple(args._params) == (('op', 'get'), ('search', '0x2EE0EA64E40A89B84B2DF73499E82A75642AC823'))
+
+
+def test_upload():
+    cmline = "curl -F file=@~/path/image.png http://quan.hoabinh.vn"
+    args = parsed_args(cmline)
+    assert tuple(args._data) == (('file', '@~/path/image.png'),)
