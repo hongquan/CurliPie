@@ -4,6 +4,7 @@ CurliPie
 
 .. image:: https://madewithlove.now.sh/vn?heart=true&colorA=%23ffcd00&colorB=%23da251d
 .. image:: https://badgen.net/pypi/v/curlipie
+   :target: https://pypi.org/project/curlipie
 
 Python library to convert `cURL`_ command to `HTTPie`_.
 
@@ -91,6 +92,47 @@ https://curlipie.now.sh/
 The site also provide HTTP API for you to develop a client for it.
 
 
+Development
+-----------
+
+This repo contains three components:
+
+- Python library ``curlipie``. This is the one `published`_ to PyPI.
+
+- An API server built with `FastAPI`_, playing role of backend for `curlipie.now.sh`_.
+
+- A minimal frontend app built with `VueJS`_.
+
+- Python dependencies are managed with `Poetry`_
+
+To try running on localhost:
+
+- Run backend with:
+
+  .. code-block:: sh
+
+    uvicorn api.main:app
+
+- Run frontend with:
+
+  .. code-block:: sh
+
+    yarn serve
+
+
+Unit test:
+
+    .. code-block:: sh
+
+        pytest
+
+
+Credit
+------
+
+Brought to you by `Nguyễn Hồng Quân <author_>`_.
+
+
 .. _cURL: https://curl.haxx.se
 .. _HTTPie: https://httpie.org
 .. _curl2httpie.online: https://curl2httpie.online/
@@ -99,3 +141,9 @@ The site also provide HTTP API for you to develop a client for it.
 .. |argparse| replace:: ``argparse``
 .. _argparse: https://docs.python.org/3/library/argparse.html
 .. _go_tutorial: https://gobyexample.com/command-line-flags
+.. _published: https://pypi.org/project/curlipie/
+.. _fastapi: https://github.com/tiangolo/fastapi
+.. _curlipie.now.sh: https://curlipie.now.sh/
+.. _vuejs: https://vuejs.org/
+.. _poetry: https://python-poetry.org/
+.. _author: https://quan.hoabinh.vn
