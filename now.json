@@ -1,5 +1,4 @@
 {
-    "name": "curlipie",
     "version": 2,
     "functions": {
         "api/main.py": {
