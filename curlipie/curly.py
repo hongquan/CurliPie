@@ -1,18 +1,17 @@
 
-import base64
-import binascii
 import collections.abc
-from typing import List, Optional, Tuple, Dict
+from typing import List, Optional, Tuple
 from dataclasses import dataclass, field
 from collections import OrderedDict, deque
 from urllib.parse import parse_qsl
 from json.decoder import JSONDecodeError
 
-import hh
 import yarl
 from tap import Tap
-from devtools import debug
 from logbook import Logger
+from werkzeug.datastructures import Headers, Authorization
+from werkzeug.http import parse_options_header, parse_authorization_header
+from http_constants.headers import HttpHeaders as HttpHeaderTypes
 
 from .compat import json_load
 
@@ -68,10 +67,10 @@ class CURLArgumentParser(Tap):
     http2: bool = False
     # Intermediate converted data
     _url: str = ''
-    _basic_auth: str = ''
+    _auth: Optional[Authorization] = None
     _params: List[Tuple[str, str]] = []
     _data: List[Tuple[str, str]] = []
-    _headers: Dict[str, str] = {}
+    _headers: Optional[Headers] = None
     _request_json: bool = False
     _errors: List[str] = []
 
@@ -117,13 +116,12 @@ class CURLArgumentParser(Tap):
         self.add_argument('-I', '--head')
         self.add_argument('-G', '--get')
         self.add_argument('-o', '--output')
-        self._headers = {}
+        self._headers = Headers()
 
     def process_args(self):
         u = yarl.URL(self.url)
         # Clean fragment, if exist
         url = str(u.with_fragment(None).with_query(None))
-        debug(url)
         # Strip leading "http://" to be short
         self._url = url[7:] if u.scheme == 'http' else url
         self._params = deque(u.query.items())
@@ -148,19 +146,24 @@ class CURLArgumentParser(Tap):
                 continue
             k = k.strip()     # type: str
             v = v.strip()     # type: str
-            if k.lower() == hh.CONTENT_TYPE.lower() and v.lower().endswith('/json'):
-                self._request_json = True
+            if k.lower() == HttpHeaderTypes.CONTENT_TYPE.lower():
+                content_type, opts = parse_options_header(v)
+                # Save it if it is JSON content type
+                if content_type == HttpHeaderTypes.CONTENT_TYPE_VALUES.json:
+                    self._request_json = True
+                    continue
+                self._headers.add(k, content_type, **opts)
                 continue
-            if k.lower() == hh.AUTHORIZATION.lower() and v.startswith('Basic '):
-                try:
-                    self._basic_auth = base64.b64decode(v.split()[1]).decode()
-                except binascii.Error:
-                    self._errors.append('Authorization info could not be base64 decoded.')
-                continue
-            self._headers[k] = v
+            if k.lower() == HttpHeaderTypes.AUTHORIZATION.lower():
+                auth = parse_authorization_header(v)
+                # Save it if it is HTTP Basic Authentication
+                if auth and auth.type == 'basic':
+                    self._auth = auth
+                    continue
+            self._headers.add(k, v)
 
     def error(self, message):
-        # Override to not let it exit our program
+        # Override to prevent parser from terminating our program
         pass
 
 

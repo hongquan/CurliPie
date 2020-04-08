@@ -1,6 +1,7 @@
 import shlex
 
 from devtools import debug
+from werkzeug.datastructures import Headers
 from curlipie.curly import CURLArgumentParser
 
 
@@ -48,7 +49,7 @@ def test_headers():
     debug(args.header)
     assert args.header == ['Content-Type: application/json', 'Host: quan.hoabinh.vn']
     debug(args._headers)
-    assert args._headers == {'Host': 'quan.hoabinh.vn'}
+    assert args._headers == Headers([('Host', 'quan.hoabinh.vn')])
     assert args._request_json
 
 

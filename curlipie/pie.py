@@ -1,14 +1,13 @@
 import re
 import shlex
 import logging
-import mimetypes
 from shlex import quote
 from collections import deque
 from typing import List
 
-import hh
 import attr
 from first import first
+from http_constants.headers import HttpHeaders as HttpHeaderTypes
 from .compat import json_dump
 from .curly import CURLArgumentParser
 
@@ -67,8 +66,10 @@ def curl_to_httpie(cmd: str, long_option: bool = False) -> ConversionResult:
             join_previous_arg(cmds, 'f')
     if args.proxy:
         cmds.extend(('--proxy', args.proxy))
-    if args.user or args._basic_auth:
-        user = args.user or args._basic_auth
+    if args.user or args._auth:
+        user = args.user
+        if not user and args._auth:
+            user = '{}:{}'.format(args._auth.username, args._auth.password)
         if long_option:
             cmds.extend(('--auth', quote(user)))
         else:
@@ -96,10 +97,11 @@ def curl_to_httpie(cmd: str, long_option: bool = False) -> ConversionResult:
     for k, v in args._headers.items():
         cmds.append(f'{quote(k)}:{quote(v)}')
     if args._request_json and not args._data:
-        mime = mimetypes.types_map['.json']
-        cmds.append(f'{quote(hh.CONTENT_TYPE)}:{quote(mime)}')
+        mime = quote(HttpHeaderTypes.CONTENT_TYPE_VALUES.json)
+        key = quote(HttpHeaderTypes.CONTENT_TYPE)
+        cmds.append(f'{key}:{mime}')
     if args.user_agent:
-        cmds.append(f'{hh.USER_AGENT}:{quote(args.user_agent)}')
+        cmds.append(f'{HttpHeaderTypes.USER_AGENT}:{quote(args.user_agent)}')
     # Params
     for k, v in args._params:
         if k.startswith('-'):

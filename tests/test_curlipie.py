@@ -34,7 +34,7 @@ test_data = (
      'http https://analysiscenter.veracode.com/api/5.0/uploadlargefile.do '
      'Content-Type:binary/octet-stream @build/veracode.bca'),
     ('curl -F file=@~/path/image.png http://quan.hoabinh.vn',
-     "http -f quan.hoabinh.vn file@'~/path/image.png'")
+     "http -f quan.hoabinh.vn file@'~/path/image.png'"),
 )
 
 
@@ -98,3 +98,11 @@ def test_multi_line():
                       """cache-control:no-cache content-type:'multipart/form-data; """
                       """boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW' """
                       """boarding_floor=1 destination_floor=9 elevator_bank_number=3""")
+
+
+def test_json_with_quote_escape():
+    curl = ('curl --url http://localhost:3000/posts -H "Content-Type: application/json;charset=UTF-8" '
+            r'-d "{\"title\":\"murat\",\"author\":\"öner\"}"')
+    httpie = curl_to_httpie(curl).httpie
+    debug(httpie)
+    assert httpie == "http localhost:3000/posts title=murat author='öner'"
