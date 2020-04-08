@@ -1,30 +1,34 @@
-
-[NoSuchOptionException]
-The "--no-dev" option does not exist.
-
-Traceback (most recent call last):
-  File "/home/quan/.poetry/lib/poetry/_vendor/py3.7/clikit/console_application.py", line 124, in run
-    self, args, input_stream, output_stream, error_stream
-  File "/home/quan/.poetry/lib/poetry/console/config/application_config.py", line 153, in create_io
-    resolved_command = application.resolve_command(args)
-  File "/home/quan/.poetry/lib/poetry/_vendor/py3.7/clikit/console_application.py", line 110, in resolve_command
-    return self._config.command_resolver.resolve(args, self)
-  File "/home/quan/.poetry/lib/poetry/_vendor/py3.7/clikit/resolver/default_resolver.py", line 34, in resolve
-    return self.create_resolved_command(result)
-  File "/home/quan/.poetry/lib/poetry/_vendor/py3.7/clikit/resolver/default_resolver.py", line 166, in create_resolved_command
-    if not result.is_parsable():
-  File "/home/quan/.poetry/lib/poetry/_vendor/py3.7/clikit/resolver/resolve_result.py", line 43, in is_parsable
-    self._parse()
-  File "/home/quan/.poetry/lib/poetry/_vendor/py3.7/clikit/resolver/resolve_result.py", line 49, in _parse
-    self._parsed_args = self._command.parse(self._raw_args)
-  File "/home/quan/.poetry/lib/poetry/_vendor/py3.7/clikit/api/command/command.py", line 113, in parse
-    return self._config.args_parser.parse(args, self._args_format, lenient)
-  File "/home/quan/.poetry/lib/poetry/_vendor/py3.7/clikit/args/default_args_parser.py", line 53, in parse
-    self._parse(args, _fmt, lenient)
-  File "/home/quan/.poetry/lib/poetry/_vendor/py3.7/clikit/args/default_args_parser.py", line 101, in _parse
-    self._parse_long_option(token, tokens, fmt, lenient)
-  File "/home/quan/.poetry/lib/poetry/_vendor/py3.7/clikit/args/default_args_parser.py", line 247, in _parse_long_option
-    self._add_long_option(name, None, tokens, fmt, lenient)
-  File "/home/quan/.poetry/lib/poetry/_vendor/py3.7/clikit/args/default_args_parser.py", line 300, in _add_long_option
-    raise NoSuchOptionException(name)
-
+aiofiles==0.4.0
+certifi==2020.4.5.1
+chardet==3.0.4
+contextvars==2.4; python_version < "3.7"
+first==2.0.2
+h11==0.8.1
+h2==3.2.0
+hh==2.0.0
+hpack==3.0.0
+hstspreload==2020.4.7
+httptools==0.1.1
+httpx==0.9.3
+hyperframe==5.2.0
+idna==2.9
+immutables==0.11; python_version < "3.7"
+importlib-metadata==1.6.0
+marshmallow==3.5.1
+multidict==4.7.5
+mypy-extensions==0.4.3
+orjson==2.6.3; python_version >= "3.7"
+python-rapidjson==0.9.1; python_version ~= "3.6"
+rfc3986==1.4.0
+sanic==19.12.2
+sanic-openapi==0.6.0
+single-version==1.1
+sniffio==1.1.0
+typed-argument-parser==1.4.1
+typing-extensions==3.7.4.2
+typing-inspect==0.5.0
+ujson==2.0.3
+uvloop==0.14.0; sys_platform != "win32" and implementation_name == "cpython" or sys_platform != "win32" and sys_platform != "cygwin" and platform_python_implementation != "PyPy"
+websockets==8.0.2
+yarl==1.4.2
+zipp==3.1.0
