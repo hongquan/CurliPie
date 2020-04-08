@@ -1,32 +1,60 @@
 import attr
 import logbook
 from logbook.compat import LoggingHandler
-from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
-from curlipie import curl_to_httpie
-from starlette.responses import RedirectResponse
+from sanic import Sanic
+from sanic import response
+from sanic.response import text
+from sanic_openapi import doc, swagger_blueprint
+from marshmallow import Schema, ValidationError, fields
+from sanic.exceptions import abort
 
-app = FastAPI(debug=True, title='CurliPie online API')
+from curlipie import curl_to_httpie
+
+
+app = Sanic(__name__)
 logger = logbook.Logger(__name__, logbook.DEBUG)
 LoggingHandler().push_application()
+app.blueprint(swagger_blueprint)
 
 
-class CurlCmd(BaseModel):
-    curl: str
-    long_option: bool = False
+class CurlSchema(Schema):
+    curl = fields.String(required=True)
+    long_option = fields.Boolean(default=False)
+
+
+class APIDoc:
+    curl = doc.String('cURL command line')
+    long_option = doc.Boolean()
+
+
+app.config["API_BASEPATH"] = "/api"
 
 
 @app.get("/")
-async def hello():
-    return RedirectResponse('/redoc')
+@doc.exclude(True)
+async def hello(request):
+    return text('Sorry, doc is temporarily not available')
+
+
+@app.get('/redoc')
+@doc.exclude(True)
+async def redoc(request):
+    return response.redirect('/swagger/')
 
 
 @app.post("/api/")
-async def convert(cmd: CurlCmd):
+@doc.consumes(doc.Boolean(name='long_option'), location='body', required=False)
+@doc.consumes(doc.String(name='curl'), location='body', required=True)
+async def convert(request):
+    schema = CurlSchema()
     try:
-        result = curl_to_httpie(cmd.curl, cmd.long_option)
+        args = schema.load(request.json)
+    except ValidationError as e:
+        return response.json(e.messages, status=400)
+    try:
+        result = curl_to_httpie(args['curl'], args.get('long_option'))
     except TypeError as e:
         logger.error('Got error: {}', e)
-        logger.debug('Posted data: {}', cmd)
-        raise HTTPException(400, 'Invalid input data')
-    return attr.asdict(result)
+        logger.debug('Posted data: {}', args)
+        raise abort(400, 'Invalid input data')
+    return response.json(attr.asdict(result))

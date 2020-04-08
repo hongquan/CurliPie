@@ -99,7 +99,7 @@ This repo contains three components:
 
 - Python library ``curlipie``. This is the one `published`_ to PyPI.
 
-- An API server built with `FastAPI`_, playing role of backend for `curlipie.now.sh`_.
+- An API server built with `Sanic`_, playing role of backend for `curlipie.now.sh`_.
 
 - A minimal frontend app built with `VueJS`_.
 
@@ -119,6 +119,8 @@ To try running on localhost:
 
     yarn serve
 
+The backend of the online API tool was previously built with `FastAPI`_, but due to recent bug of `Zeit Now <zeit_now_>`_, the platform where I deploy the website to,
+I have to temporarily switch to Sanic.
 
 Unit test:
 
@@ -143,7 +145,9 @@ Brought to you by `Nguyễn Hồng Quân <author_>`_.
 .. _go_tutorial: https://gobyexample.com/command-line-flags
 .. _published: https://pypi.org/project/curlipie/
 .. _fastapi: https://github.com/tiangolo/fastapi
+.. _sanic: https://sanicframework.org/
 .. _curlipie.now.sh: https://curlipie.now.sh/
 .. _vuejs: https://vuejs.org/
 .. _poetry: https://python-poetry.org/
+.. _zeit_now: https://zeit.co
 .. _author: https://quan.hoabinh.vn

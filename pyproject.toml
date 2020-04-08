@@ -28,6 +28,10 @@ orjson = { version = "^2.2.0", markers = "python_version >= '3.7'" }
 first = "^2.0.2"
 python-rapidjson = { version = "^0.9.1", markers = "python_version ~= '3.6'" }
 single-version = "^1.1"
+sanic = "^19.12.2"
+marshmallow = "^3.5.1"
+ujson = "^2.0.3"
+sanic-openapi = "0.6.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
