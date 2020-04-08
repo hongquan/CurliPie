@@ -1,45 +1,30 @@
-# This requirements.txt is for Zeit Now
-curlipie
-atomicwrites==1.3.0; sys_platform == "win32"
-attrs==19.3.0
-click==7.0
-colorama==0.4.3; sys_platform == "win32"
-dataclasses==0.6; python_version < "3.7"
-devtools==0.5.1
-entrypoints==0.3
-fastapi==0.47.1
-first==2.0.2
-flake8==3.7.9
-h11==0.9.0
-hh==2.0.0
-httptools==0.0.13; sys_platform != "win32" and sys_platform != "cygwin" and platform_python_implementation != "pypy"
-idna==2.8
-importlib-metadata==1.5.0
-logbook==1.5.3
-mccabe==0.6.1
-more-itertools==8.1.0
-multidict==4.7.4
-mypy-extensions==0.4.3
-orjson==2.2.0; python_version >= "3.7"
-packaging==20.0
-pluggy==0.13.1
-py==1.8.1
-pycodestyle==2.5.0
-pydantic==1.3
-pyflakes==2.1.1
-pyparsing==2.4.6
-pytest==5.3.4
-pytest-flake8==1.0.4
-python-rapidjson==0.9.1; python_version ~= "3.6"
-single-version==1.1
-six==1.14.0
-starlette==0.12.9
-typed-argument-parser==1.4
-typing-extensions==3.7.4.1
-typing-inspect==0.5.0
-uvicorn==0.11.2
-uvloop==0.14.0; sys_platform != "win32" and sys_platform != "cygwin" and platform_python_implementation != "pypy"
-wcwidth==0.1.8
-websockets==8.0.2
-yarl==1.4.2
-zipp==2.0.1
+
+[NoSuchOptionException]
+The "--no-dev" option does not exist.
+
+Traceback (most recent call last):
+  File "/home/quan/.poetry/lib/poetry/_vendor/py3.7/clikit/console_application.py", line 124, in run
+    self, args, input_stream, output_stream, error_stream
+  File "/home/quan/.poetry/lib/poetry/console/config/application_config.py", line 153, in create_io
+    resolved_command = application.resolve_command(args)
+  File "/home/quan/.poetry/lib/poetry/_vendor/py3.7/clikit/console_application.py", line 110, in resolve_command
+    return self._config.command_resolver.resolve(args, self)
+  File "/home/quan/.poetry/lib/poetry/_vendor/py3.7/clikit/resolver/default_resolver.py", line 34, in resolve
+    return self.create_resolved_command(result)
+  File "/home/quan/.poetry/lib/poetry/_vendor/py3.7/clikit/resolver/default_resolver.py", line 166, in create_resolved_command
+    if not result.is_parsable():
+  File "/home/quan/.poetry/lib/poetry/_vendor/py3.7/clikit/resolver/resolve_result.py", line 43, in is_parsable
+    self._parse()
+  File "/home/quan/.poetry/lib/poetry/_vendor/py3.7/clikit/resolver/resolve_result.py", line 49, in _parse
+    self._parsed_args = self._command.parse(self._raw_args)
+  File "/home/quan/.poetry/lib/poetry/_vendor/py3.7/clikit/api/command/command.py", line 113, in parse
+    return self._config.args_parser.parse(args, self._args_format, lenient)
+  File "/home/quan/.poetry/lib/poetry/_vendor/py3.7/clikit/args/default_args_parser.py", line 53, in parse
+    self._parse(args, _fmt, lenient)
+  File "/home/quan/.poetry/lib/poetry/_vendor/py3.7/clikit/args/default_args_parser.py", line 101, in _parse
+    self._parse_long_option(token, tokens, fmt, lenient)
+  File "/home/quan/.poetry/lib/poetry/_vendor/py3.7/clikit/args/default_args_parser.py", line 247, in _parse_long_option
+    self._add_long_option(name, None, tokens, fmt, lenient)
+  File "/home/quan/.poetry/lib/poetry/_vendor/py3.7/clikit/args/default_args_parser.py", line 300, in _add_long_option
+    raise NoSuchOptionException(name)
+
