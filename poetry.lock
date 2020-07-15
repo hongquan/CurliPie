@@ -158,7 +158,7 @@ docs = ["sphinx", "rst.linker"]
 testing = ["packaging", "importlib-resources"]
 
 [[package]]
-category = "dev"
+category = "main"
 description = "A logging replacement for Python"
 name = "logbook"
 optional = false
@@ -482,7 +482,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
-content-hash = "48072a3da74e47ca36891e270a89f7904c5200a06c337ea28756613715d2d65e"
+content-hash = "c2b804eb2ec8eeaaf4de77f9363242267f39487c9eb986f04cbc5742f3cf9bd3"
 python-versions = "^3.6"
 
 [metadata.files]

@@ -24,7 +24,7 @@ to
 Motivation
 ----------
 
-This library was born when I join a project with a team of non-Linux, non-Python developers. Because the project doesn't have proper documentation, the other team often share API usage example to me in form of cURL command, generated from their daily-used Postman. Those cURL commands are usually ugly, like this:
+This library was born when I joined a project with a team of non-Linux, non-Python developers. Because the project didn't have proper documentation, the other team often shared API usage example to me in form of cURL command, generated from their daily-used Postman. Those cURL commands are usually ugly, like this:
 
 
 .. code-block:: sh
@@ -38,13 +38,13 @@ This library was born when I join a project with a team of non-Linux, non-Python
         "createdAt": "2019-12-13 10:00:00"
     }'
 
-I am more comfortable with HTTPie (shorter syntax, has highlighting and is a Python application), so I often convert it to HTTPie:
+I am more comfortable with HTTPie (shorter syntax, has highlighting and is a Python application), so I often converted it to HTTPie:
 
 .. code-block:: sh
 
     http -F app-staging.dev/api userId=abc-xyz planAmount:=50000 isPromotion:=false createdAt='2019-12-13 10:00:00'
 
-The Postman tool can generate HTTPie, but with even uglier command:
+Though Postman can generate HTTPie, it does result in even uglier command:
 
 .. code-block:: sh
 
