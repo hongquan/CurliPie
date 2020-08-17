@@ -76,3 +76,21 @@ def test_upload():
     cmline = "curl -F file=@~/path/image.png http://quan.hoabinh.vn"
     args = parsed_args(cmline)
     assert tuple(args._data) == (('file', '@~/path/image.png'),)
+
+
+def test_data_raw():
+    cmline = """
+    --location --request POST 'https://quan.hoabinh.vn/searching?apikey=xxx'
+--header 'Content-Type: application/json'
+--data-raw '{
+    "title": "yyy",
+    "categories": [
+        "zzz"
+    ],
+    "domain": "quan.hoabinh.vn"
+}'
+    """
+    args = parsed_args(cmline)
+    assert args.header == ['Content-Type: application/json']
+    debug(args._data)
+    assert tuple(args._data) == (('title', 'yyy'), ('categories', ['zzz']), ('domain', 'quan.hoabinh.vn'))
