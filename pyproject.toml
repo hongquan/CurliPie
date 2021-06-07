@@ -38,6 +38,7 @@ devtools = "^0.5.1"
 pytest-flake8 = "^1.0.4"
 fastapi = "^0.65.1"
 uvicorn = "^0.14.0"
+aiofiles = "^0.7.0"
 
 [build-system]
 requires = ["poetry>=0.12"]

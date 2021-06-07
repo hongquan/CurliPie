@@ -1,32 +1,19 @@
 {
-  "name": "vue-project",
-  "version": "0.1.0",
+  "name": "curlipie-frontend",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "serve": "serve api/public",
+    "build-tailwind": "NODE_ENV=production npx tailwindcss build -o api/public/tailwind.css"
   },
   "dependencies": {
-    "@liqueflies/vue-grid": "^0.0.4",
-    "copy-webpack-plugin": "^5.1.1",
-    "core-js": "^3.4.4",
-    "lodash": "^4.17.21",
-    "lodash.debounce": "^4.0.8",
-    "vfc": "^2.0.0",
-    "vue": "^2.6.10",
-    "vue-highlightjs": "^1.3.3",
-    "vue-lodash": "^2.1.2",
-    "vue-router": "^3.1.3"
+    "serve": "^11.3.2"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^4.1.0",
-    "@vue/cli-plugin-eslint": "^4.1.0",
-    "@vue/cli-plugin-router": "^4.1.0",
-    "@vue/cli-service": "^4.1.0",
-    "babel-eslint": "^10.0.3",
-    "eslint": "^5.16.0",
-    "eslint-plugin-vue": "^5.0.0",
-    "vue-template-compiler": "^2.6.10"
+    "@tailwindcss/aspect-ratio": "^0.2.0",
+    "@tailwindcss/forms": "^0.3.2",
+    "@tailwindcss/typography": "^0.4.0",
+    "autoprefixer": "^10.2.5",
+    "tailwindcss": "^2.1.2"
   }
 }

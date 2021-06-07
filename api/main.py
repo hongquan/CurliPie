@@ -1,10 +1,15 @@
+from pathlib import Path
+
 import logbook
 from logbook.compat import LoggingHandler
 from fastapi import FastAPI, HTTPException
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from curlipie import curl_to_httpie
 from starlette.responses import RedirectResponse
 
+
+PUBLIC_DIR = Path(__file__).parent / 'public'
 app = FastAPI(debug=True, title='CurliPie online API')
 logger = logbook.Logger(__name__, logbook.DEBUG)
 LoggingHandler().push_application()
@@ -29,3 +34,6 @@ async def convert(cmd: CurlCmd):
         logger.debug('Posted data: {}', cmd)
         raise HTTPException(400, 'Invalid input data')
     return result
+
+
+app.mount('/demo/', StaticFiles(directory=PUBLIC_DIR, html=True))

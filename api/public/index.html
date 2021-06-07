@@ -1,53 +1,88 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <meta name="description" content="Online tool to convert cURL command to HTTPie">
-    <meta name="keywords" content="api, test, tool, cli, curl, httpie, http, python">
-    <meta property="og:title" content="Online tool to convert cURL command to HTTPie">
-    <meta property="og:image" content="https://www.nicepng.com/png/full/6-60631_pie-png.png">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <link rel="stylesheet"
-      href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/default.min.css">
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width,initial-scale=1.0'>
+    <meta name='description' content='Online tool to convert cURL command to HTTPie'>
+    <meta name='keywords' content='api, test, tool, cli, curl, httpie, http, python'>
+    <meta property='og:title' content='Online tool to convert cURL command to HTTPie'>
+    <meta property='og:image' content='https://www.nicepng.com/png/full/6-60631_pie-png.png'>
+    <link rel='icon' href='favicon.png'>
+    <link rel='stylesheet' href='tailwind.css?v=4'>
+    <link rel='stylesheet'
+      href='highlight/styles/a11y-dark.min.css'>
     <title>CurliPie</title>
-    <style>
-      textarea {
-        width: 100%
-      }
-      footer {
-        font-family: 'Avenir', Helvetica, Arial, sans-serif;
-        text-align: center;
-      }
-      .center-align {
-        text-align: center;
-      }
-    </style>
   </head>
   <body>
     <noscript>
       <strong>Please enable JavaScript to continue.</strong>
     </noscript>
-    <div id="app"></div>
+    <header class='container mx-auto w-full max-w-4xl px-2 mb-8 flex flex-col md:flex-row md:items-end space-y-4 md:space-x-4'>
+      <div><img alt='CurliPie logo' src='https://www.nicepng.com/png/full/6-60631_pie-png.png' class='h-48 m-0'></div>
+      <div class='prose'>
+        <h1 class=''>Let's convert from <a href='https://curl.haxx.se'>cURL</a> to <a href='https://httpie.org'>HTTPie</a></h1>
+      </div>
+    </header>
+    <main class='prose container mx-auto w-full max-w-4xl px-2' x-data='app()'>
+      <form method='POST' x-on:submit.prevent='onSubmit' class='flex flex-col md:flex-row items-center space-y-4 md:space-x-4'>
+        <textarea name='curl' class='w-full' x-model='curl'></textarea>
+        <div>
+          <button class='w-full md:w-auto px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700'>Submit</button>
+        </div>
+      </form>
+
+      <h2>Result (<a href='/redoc'>API documentation</a>)</h2>
+      <!-- Ref: https://tailwindcomponents.com/component/terminal-kde-plasma -->
+      <div class='text-gray-300 rounded-t shadow-lg overflow-hidden'>
+        <div class='h-8 flex items-center p-2 justify-between bg-gradient-to-b from-gray-700 to-gray-800'>
+          <div class='flex items-center gap-1'>
+            <svg class='w-5 h-5 cursor-pointer' fill='none' stroke='currentColor' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z'></path></svg>
+            <span class='font-bold select-none'>Terminal</span>
+          </div>
+          <div class='flex items-center gap-1'>
+            <svg class='w-4 h-4 cursor-pointer hover:text-red-400' fill='none' stroke='currentColor' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'></path></svg>
+            <svg class='w-4 h-4 cursor-pointer hover:text-red-400' fill='none' stroke='currentColor' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 15l7-7 7 7'></path></svg>
+            <svg class='w-4 h-4 cursor-pointer hover:text-red-400' fill='currentColor' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'><path fill-rule='evenodd' d='M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z' clip-rule='evenodd'></path></svg>
+          </div>
+        </div>
+        <div class='h-72 p-1 bg-gray-900 font-mono'>
+          <pre><code class='bash' x-html='colorizeHttpie()'></code></pre>
+        </div>
+      </div>
+
+      <ul>
+        <template x-for='(err, i) in errors' :key='i'>
+          <li x-text='err'></li>
+        </template>
+      </ul>
+    </main>
     <!-- built files will be auto injected -->
-    <footer>
+    <footer class='prose container mx-auto w-full max-w-4xl px-2 text-sm text-center'>
       <p>
         Author: <a href='https://quan.hoabinh.vn'>Nguyễn Hồng Quân</a><br/>
         Tool to demonstrate <a href='https://pypi.org/project/curlipie/'>CurliPie</a> ability.
-        This online tool is built with <a href='https://vuejs.org/'>VueJS</a>, <a href='https://fastapi.tiangolo.com/'>FastAPI</a>.<br/>
-        Logo is from <a href='www.nicepng.com'>nicepng.com</a>
+        This online tool is built with <a href='https://github.com/alpinejs/alpine'>AlpineJS</a>, <a href='https://tailwindcss.com'>TailwindCSS</a>, <a href='https://fastapi.tiangolo.com/'>FastAPI</a>.<br/>
+        Logo is from <a href='www.nicepng.com'>nicepng.com</a>.
+        Icon is from <a href='www.freepik.com'>Freepik</a>.
       </p>
-      <img src='https://madewithlove.now.sh/vn?heart=true&colorA=%23ffcd00&colorB=%23da251d'>
+      <img class='mx-auto' src='https://madewithlove.now.sh/vn?heart=true&colorA=%23ffcd00&colorB=%23da251d'>
     </footer>
+    <script type='modulepreload' src='ky.min.js'></script>
+    <script src='highlight/highlight.js'></script>
+    <script src='highlight/languages/bash.min.js'></script>
+    <script type='module' src='main.js?v=1'></script>
+    <script type='module' src='https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js'></script>
+    <script nomodule src='https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine-ie11.min.js' defer></script>
+
     <!-- Matomo -->
-    <script type="text/javascript">
+    <script type='text/javascript'>
       var _paq = window._paq || [];
-      /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+      /* tracker methods like 'setCustomDimension' should be called before 'trackPageView' */
       _paq.push(['trackPageView']);
       _paq.push(['enableLinkTracking']);
       (function() {
-        var u="https://matomo.quan.hoabinh.vn/";
+        var u='https://matomo.quan.hoabinh.vn/';
         _paq.push(['setTrackerUrl', u+'matomo.php']);
         _paq.push(['setSiteId', '4']);
         var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
