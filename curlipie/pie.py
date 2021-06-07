@@ -7,7 +7,7 @@ from typing import List
 
 import attr
 from first import first
-from http_constants.headers import HttpHeaders as HttpHeaderTypes
+from http_constants.headers import HttpHeaders as HH
 from .compat import json_dump
 from .curly import CURLArgumentParser
 
@@ -69,7 +69,7 @@ def curl_to_httpie(cmd: str, long_option: bool = False) -> ConversionResult:
     if args.user or args._auth:
         user = args.user
         if not user and args._auth:
-            user = '{}:{}'.format(args._auth.username, args._auth.password)
+            user = ':'.join(args._auth.get_username_password())
         if long_option:
             cmds.extend(('--auth', quote(user)))
         else:
@@ -94,14 +94,14 @@ def curl_to_httpie(cmd: str, long_option: bool = False) -> ConversionResult:
     # URL
     cmds.append(args._url)
     # Headers
-    for k, v in args._headers.items():
+    for k, v in args._headers.to_dict().items():
         cmds.append(f'{quote(k)}:{quote(v)}')
     if args._request_json and not args._data:
-        mime = quote(HttpHeaderTypes.CONTENT_TYPE_VALUES.json)
-        key = quote(HttpHeaderTypes.CONTENT_TYPE)
+        mime = quote(HH.CONTENT_TYPE_VALUES.json)
+        key = quote(HH.CONTENT_TYPE)
         cmds.append(f'{key}:{mime}')
     if args.user_agent:
-        cmds.append(f'{HttpHeaderTypes.USER_AGENT}:{quote(args.user_agent)}')
+        cmds.append(f'{HH.USER_AGENT}:{quote(args.user_agent)}')
     # Params
     for k, v in args._params:
         if k.startswith('-'):

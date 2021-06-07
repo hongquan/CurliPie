@@ -87,7 +87,7 @@ Online tool
 
 CurliPie is not very usable if it stays in library form, so I made an online tool for you to use it quickly:
 
-https://curlipie.now.sh/
+https://curlipie.vercel.app/
 
 The site also provide HTTP API for you to develop a client for it.
 
@@ -99,7 +99,7 @@ This repo contains three components:
 
 - Python library ``curlipie``. This is the one `published`_ to PyPI.
 
-- An API server built with `FastAPI`_, playing role of backend for `curlipie.now.sh`_.
+- An API server built with `FastAPI`_, playing role of backend for `curlipie.vercel.app`_.
 
 - A minimal frontend app built with `VueJS`_.
 
@@ -143,7 +143,7 @@ Brought to you by `Nguyễn Hồng Quân <author_>`_.
 .. _go_tutorial: https://gobyexample.com/command-line-flags
 .. _published: https://pypi.org/project/curlipie/
 .. _fastapi: https://github.com/tiangolo/fastapi
-.. _curlipie.now.sh: https://curlipie.now.sh/
+.. _curlipie.vercel.app: https://curlipie.vercel.app/
 .. _vuejs: https://vuejs.org/
 .. _poetry: https://python-poetry.org/
 .. _author: https://quan.hoabinh.vn

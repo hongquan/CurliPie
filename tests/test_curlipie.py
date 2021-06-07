@@ -90,12 +90,10 @@ def test_multi_line():
     httpie = curl_to_httpie(curl).httpie
     debug(httpie)
     assert httpie == ("""http -fa user:xxx 172.16.0.19/api/access-cards/2392919198/call-elevator """
-                      """Accept:'*/*' Accept-Encoding:'gzip, deflate' Cache-Control:no-cache """
+                      """Accept:'*/*' Accept-Encoding:'gzip, deflate' """
                       """Connection:keep-alive Content-Length:407 """
-                      """Content-Type:'multipart/form-data; """
-                      """boundary=--------------------------539724411903816199149731' """
                       """Host:172.16.0.19 Postman-Token:24e4f6f7 User-Agent:PostmanRuntime/7.19.0 """
-                      """cache-control:no-cache content-type:'multipart/form-data; """
+                      """Cache-Control:no-cache Content-Type:'multipart/form-data; """
                       """boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW' """
                       """boarding_floor=1 destination_floor=9 elevator_bank_number=3""")
 

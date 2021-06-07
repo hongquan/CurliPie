@@ -9,9 +9,9 @@ from json.decoder import JSONDecodeError
 import yarl
 from tap import Tap
 from logbook import Logger
-from werkzeug.datastructures import Headers, Authorization
-from werkzeug.http import parse_options_header, parse_authorization_header
-from http_constants.headers import HttpHeaders as HttpHeaderTypes
+from kiss_headers import parse_it, get_polymorphic, ContentType, BasicAuthorization
+from kiss_headers import Headers, Header
+from http_constants.headers import HttpHeaders as HH
 
 from .compat import json_load
 
@@ -67,10 +67,10 @@ class CURLArgumentParser(Tap):
     http2: bool = False
     # Intermediate converted data
     _url: str = ''
-    _auth: Optional[Authorization] = None
+    _auth: Optional[BasicAuthorization] = None
     _params: List[Tuple[str, str]] = []
     _data: List[Tuple[str, str]] = []
-    _headers: Optional[Headers] = None
+    _headers: Headers
     _request_json: bool = False
     _errors: List[str] = []
 
@@ -79,7 +79,7 @@ class CURLArgumentParser(Tap):
         all_variables = super()._get_class_variables()
         return OrderedDict((k, v) for k, v in all_variables.items() if not k.startswith('_'))
 
-    def add_arguments(self):
+    def configure(self):
         self.add_argument('url')
         self.add_argument('-v', '--verbose')
         self.add_argument('-i', '--include')
@@ -109,7 +109,7 @@ class CURLArgumentParser(Tap):
         self.add_argument('--cacert')
         self.add_argument('-H', '--header', nargs='?', action='append')
         self.add_argument('-d', '--data', nargs='?', action='append')
-        self.add_argument('--data-raw', nargs='?', action='append')
+        self.add_argument('--data-raw', nargs='?', action='append', default=[])
         self.add_argument('--data-binary', nargs='?', action='append')
         self.add_argument('-F', '--form', nargs='?', action='append')
         self.add_argument('-A', '--user-agent')
@@ -139,28 +139,27 @@ class CURLArgumentParser(Tap):
             self._data.extend(result.data)
             self._errors.extend(result.errors)
         for h in self.header:
-            try:
-                k, v = h.split(':')
-            except ValueError:
-                logger.warning('Malformed header: {}', h)
+            headers = parse_it(h)
+            if not headers:
                 continue
-            k = k.strip()     # type: str
-            v = v.strip()     # type: str
-            if k.lower() == HttpHeaderTypes.CONTENT_TYPE.lower():
-                content_type, opts = parse_options_header(v)
-                # Save it if it is JSON content type
-                if content_type == HttpHeaderTypes.CONTENT_TYPE_VALUES.json:
+            if HH.CONTENT_TYPE in headers:
+                hx = get_polymorphic(headers, ContentType)
+                if hx.get_mime() == HH.CONTENT_TYPE_VALUES.json:
                     self._request_json = True
                     continue
-                self._headers.add(k, content_type, **opts)
+            elif HH.AUTHORIZATION in headers and headers.authorization.content.startswith('Basic '):
+                hx = get_polymorphic(headers, BasicAuthorization)
+                self._auth = hx
                 continue
-            if k.lower() == HttpHeaderTypes.AUTHORIZATION.lower():
-                auth = parse_authorization_header(v)
-                # Save it if it is HTTP Basic Authentication
-                if auth and auth.type == 'basic':
-                    self._auth = auth
-                    continue
-            self._headers.add(k, v)
+            # kiss-header doesn't prevent duplicate, so we have to check ourselve
+            # Please note the behavior of kiss-headers: The "Accept-Encoding: gzip, deflate"
+            # will be parsed to two Header objects, to get all the "value" side, we have to
+            # convert the parse result to dict.
+            name = headers[0].pretty_name
+            if self._headers.has(name):
+                del self._headers[name]
+            value = headers.to_dict()[name]
+            self._headers += Header(name, value)
 
     def error(self, message):
         # Override to prevent parser from terminating our program
