@@ -19,7 +19,7 @@ classifiers = [
 keywords = ["api", "http", "curl", "httpie", "cli", "conversion"]
 
 [tool.poetry.dependencies]
-python = "^3.6"
+python = "^3.6.1"
 multidict = "^4.7.4"
 yarl = "^1.4.2"
 orjson = { version = "^2.2.0", markers = "python_version >= '3.7'" }
@@ -30,6 +30,7 @@ logbook = "^1.5.3"
 single-version = "^1.5.1"
 kiss-headers = "^2.3.0"
 typed-argument-parser = "^1.6.2"
+pydantic = "^1.8.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

@@ -1,12 +1,13 @@
 import re
 import shlex
 import logging
+import dataclasses
 from shlex import quote
 from collections import deque
 from typing import List
 
-import attr
 from first import first
+from pydantic.dataclasses import dataclass
 from http_constants.headers import HttpHeaders as HH
 from .compat import json_dump
 from .curly import CURLArgumentParser
@@ -16,10 +17,10 @@ REGEX_SINGLE_OPT = re.compile(r'-\w$')
 logger = logging.getLogger(__name__)
 
 
-@attr.s(auto_attribs=True)
+@dataclass
 class ConversionResult:
     httpie: str
-    errors: List[str] = attr.Factory(list)
+    errors: List[str] = dataclasses.field(default_factory=list)
 
 
 def join_previous_arg(cmds: List[str], name: str):

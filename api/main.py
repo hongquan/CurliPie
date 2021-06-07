@@ -1,4 +1,3 @@
-import attr
 import logbook
 from logbook.compat import LoggingHandler
 from fastapi import FastAPI, HTTPException
@@ -29,4 +28,4 @@ async def convert(cmd: CurlCmd):
         logger.error('Got error: {}', e)
         logger.debug('Posted data: {}', cmd)
         raise HTTPException(400, 'Invalid input data')
-    return attr.asdict(result)
+    return result
