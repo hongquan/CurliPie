@@ -112,3 +112,4 @@ venv.bak/
 node_modules
 
 .now
+.vercel
