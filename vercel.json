@@ -1,16 +1,15 @@
 {
     "version": 2,
-    "functions": {
-        "api/main.py": {
-            "memory": 128,
-            "excludeFiles": "dist"
-        }
-    },
     "public": true,
+    "builds": [
+        { "src": "/api/public/**", "use": "@vercel/static"},
+        { "src": "/api/main.py", "use": "@vercel/python"}
+    ],
     "routes": [
         {"src": "/api/", "dest": "/api/main.py"},
         {"src": "/openapi.json", "dest": "/api/main.py"},
         {"src": "/docs", "dest": "/api/main.py"},
-        {"src": "/redoc", "dest": "/api/main.py"}
+        {"src": "/redoc", "dest": "/api/main.py"},
+        {"src": "/(.*)", "dest": "/api/public/$1"}
     ]
 }
