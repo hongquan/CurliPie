@@ -101,9 +101,9 @@ This repo contains three components:
 
 - An API server built with `FastAPI`_, playing role of backend for `curlipie.vercel.app`_.
 
-- A minimal frontend app built with `VueJS`_.
+- A minimal frontend app built with `AlpineJS`_ and `TailwindCSS`_.
 
-- Python dependencies are managed with `Poetry`_
+- Python dependencies are managed with `Poetry`_.
 
 To try running on localhost:
 
@@ -113,11 +113,11 @@ To try running on localhost:
 
     uvicorn api.main:app
 
-- Run frontend with:
+- The front-end are just static files, not built on any framework, so you can access it via http://localhost:8000/demo/. But because TailwindCSS is configured to strip unused CSS classes, you may need to rerun this command keep your classes:
 
   .. code-block:: sh
 
-    yarn serve
+    yarn build-tailwind
 
 
 Unit test:
@@ -145,5 +145,7 @@ Brought to you by `Nguyễn Hồng Quân <author_>`_.
 .. _fastapi: https://github.com/tiangolo/fastapi
 .. _curlipie.vercel.app: https://curlipie.vercel.app/
 .. _vuejs: https://vuejs.org/
+.. _alpinejs: https://github.com/alpinejs/alpine
+.. _tailwindcss: https://tailwindcss.com
 .. _poetry: https://python-poetry.org/
 .. _author: https://quan.hoabinh.vn
