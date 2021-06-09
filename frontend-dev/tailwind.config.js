@@ -1,9 +1,15 @@
 module.exports = {
   purge: [
-    '../api/**/*.html',
+    '../api/**/*.jinja',
   ],
   darkMode: false, // or 'media' or 'class'
   theme: {
+    minHeight: {
+      0: '0px',
+      24: '6rem',
+      full: '100%',
+      screen: '100vh',
+    },
     extend: {
       typography: (theme) => ({
         DEFAULT: {

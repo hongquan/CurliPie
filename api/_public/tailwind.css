@@ -1004,6 +1004,10 @@ select {
   justify-content: space-between;
 }
 
+.flex-1 {
+  flex: 1 1 0%;
+}
+
 .font-mono {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
@@ -1030,10 +1034,6 @@ select {
 
 .h-48 {
   height: 12rem;
-}
-
-.h-72 {
-  height: 18rem;
 }
 
 .text-sm {
@@ -1063,6 +1063,14 @@ select {
   max-width: 56rem;
 }
 
+.min-h-24 {
+  min-height: 6rem;
+}
+
+.min-h-screen {
+  min-height: 100vh;
+}
+
 .overflow-hidden {
   overflow: hidden;
 }
@@ -1088,6 +1096,14 @@ select {
 .px-4 {
   padding-left: 1rem;
   padding-right: 1rem;
+}
+
+.pb-2 {
+  padding-bottom: 0.5rem;
+}
+
+.static {
+  position: static;
 }
 
 * {

@@ -8,7 +8,7 @@
   },
   "rewrites": [
     {
-      "source": "/:path(redoc|docs|openapi.json)*",
+      "source": "/:path(api/|redoc|docs|openapi.json)*",
       "destination": "/api/main.py"
     },
     {
