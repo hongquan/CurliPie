@@ -2,7 +2,7 @@
 CurliPie
 ========
 
-.. image:: https://madewithlove.now.sh/vn?heart=true&colorA=%23ffcd00&colorB=%23da251d
+.. image:: https://madewithlove.vercel.app/vn?heart=true&colorA=%23ffcd00&colorB=%23da251d
 .. image:: https://badgen.net/pypi/v/curlipie
    :target: https://pypi.org/project/curlipie
 
@@ -87,7 +87,7 @@ Online tool
 
 CurliPie is not very usable if it stays in library form, so I made an online tool for you to use it quickly:
 
-https://curlipie.vercel.app/
+https://curlipie.vercel.app
 
 The site also provide HTTP API for you to develop a client for it.
 
@@ -113,7 +113,7 @@ To try running on localhost:
 
     uvicorn api.main:app
 
-- The front-end are just static files, not built on any framework, so you can access it via http://localhost:8000/demo/. But because TailwindCSS is configured to strip unused CSS classes, you may need to rerun this command keep your classes:
+- The front-end are just static files, served by backend also, so you can access it via http://localhost:8000/. But because TailwindCSS is configured to strip unused CSS classes, you may need to rerun this command, inside *frontend-dev* folder, to keep your classes:
 
   .. code-block:: sh
 
