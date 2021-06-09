@@ -1,14 +1,29 @@
 {
-  "version": 2,
   "public": true,
   "functions": {
     "api/main.py": {
-      "excludeFiles": "_public"
+      "excludeFiles": "api/_public"
     }
   },
   "rewrites": [
     {
-      "source": "/:path(api/|redoc|docs|openapi.json)*",
+      "source": "/",
+      "destination": "/api/main.py"
+    },
+    {
+      "source": "/api/",
+      "destination": "/api/main.py"
+    },
+    {
+      "source": "/redoc",
+      "destination": "/api/main.py"
+    },
+    {
+      "source": "/docs",
+      "destination": "/api/main.py"
+    },
+    {
+      "source": "/openapi.json",
       "destination": "/api/main.py"
     },
     {
