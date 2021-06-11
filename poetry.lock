@@ -389,7 +389,7 @@ full = ["aiofiles", "graphene", "itsdangerous", "jinja2", "python-multipart", "p
 
 [[package]]
 name = "typed-argument-parser"
-version = "1.6.2"
+version = "1.6.3"
 description = "Typed Argument Parser"
 category = "main"
 optional = false
@@ -397,11 +397,11 @@ python-versions = "*"
 
 [package.dependencies]
 typing_extensions = ">=3.7.4"
-typing-inspect = ">=0.5"
+typing-inspect = "0.6.0"
 
 [[package]]
 name = "typing-extensions"
-version = "3.7.4.3"
+version = "3.10.0.0"
 description = "Backported and Experimental Type Hints for Python 3.5+"
 category = "main"
 optional = false
@@ -409,7 +409,7 @@ python-versions = "*"
 
 [[package]]
 name = "typing-inspect"
-version = "0.7.0"
+version = "0.6.0"
 description = "Runtime inspection utilities for typing module."
 category = "main"
 optional = false
@@ -734,17 +734,17 @@ starlette = [
     {file = "starlette-0.14.2.tar.gz", hash = "sha256:7d49f4a27f8742262ef1470608c59ddbc66baf37c148e938c7038e6bc7a998aa"},
 ]
 typed-argument-parser = [
-    {file = "typed-argument-parser-1.6.2.tar.gz", hash = "sha256:32f901f91b36d8920d407462bc35ec74148aeb9b81b1333d42383320c26744eb"},
+    {file = "typed-argument-parser-1.6.3.tar.gz", hash = "sha256:e9adffa4f12154e2dffe54b69d3bb4f407b5caae5bf48cdc225e903f2e401829"},
 ]
 typing-extensions = [
-    {file = "typing_extensions-3.7.4.3-py2-none-any.whl", hash = "sha256:dafc7639cde7f1b6e1acc0f457842a83e722ccca8eef5270af2d74792619a89f"},
-    {file = "typing_extensions-3.7.4.3-py3-none-any.whl", hash = "sha256:7cb407020f00f7bfc3cb3e7881628838e69d8f3fcab2f64742a5e76b2f841918"},
-    {file = "typing_extensions-3.7.4.3.tar.gz", hash = "sha256:99d4073b617d30288f569d3f13d2bd7548c3a7e4c8de87db09a9d29bb3a4a60c"},
+    {file = "typing_extensions-3.10.0.0-py2-none-any.whl", hash = "sha256:0ac0f89795dd19de6b97debb0c6af1c70987fd80a2d62d1958f7e56fcc31b497"},
+    {file = "typing_extensions-3.10.0.0-py3-none-any.whl", hash = "sha256:779383f6086d90c99ae41cf0ff39aac8a7937a9283ce0a414e5dd782f4c94a84"},
+    {file = "typing_extensions-3.10.0.0.tar.gz", hash = "sha256:50b6f157849174217d0656f99dc82fe932884fb250826c18350e159ec6cdf342"},
 ]
 typing-inspect = [
-    {file = "typing_inspect-0.7.0-py2-none-any.whl", hash = "sha256:e942841c8ce2a80c5e5fbec88d7075c71487cb3cacb945de763094dc3e78be0c"},
-    {file = "typing_inspect-0.7.0-py3-none-any.whl", hash = "sha256:118ebe93e4702647200ef946ea8bfd4508b4e5ff2cc8ed6e85a21f5c554dd660"},
-    {file = "typing_inspect-0.7.0.tar.gz", hash = "sha256:b0879cbc15d086f0ca7066eb775c062333e96f6d4622193d2423d8649c778480"},
+    {file = "typing_inspect-0.6.0-py2-none-any.whl", hash = "sha256:de08f50a22955ddec353876df7b2545994d6df08a2f45d54ac8c05e530372ca0"},
+    {file = "typing_inspect-0.6.0-py3-none-any.whl", hash = "sha256:3b98390df4d999a28cf5b35d8b333425af5da2ece8a4ea9e98f71e7591347b4f"},
+    {file = "typing_inspect-0.6.0.tar.gz", hash = "sha256:8f1b1dd25908dbfd81d3bebc218011531e7ab614ba6e5bf7826d887c834afab7"},
 ]
 uvicorn = [
     {file = "uvicorn-0.14.0-py3-none-any.whl", hash = "sha256:2a76bb359171a504b3d1c853409af3adbfa5cef374a4a59e5881945a97a93eae"},

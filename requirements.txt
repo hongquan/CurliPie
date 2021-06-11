@@ -6,7 +6,7 @@ click==8.0.1; python_version >= "3.6"
 colorama==0.4.4; python_version >= "3.6" and python_full_version < "3.0.0" and sys_platform == "win32" and platform_system == "Windows" or sys_platform == "win32" and python_version >= "3.6" and python_full_version >= "3.5.0" and platform_system == "Windows"
 dataclasses==0.8; python_version >= "3.6" and python_version < "3.7" and python_full_version >= "3.6.1"
 devtools==0.5.1; python_version >= "3.5"
-fastapi==0.65.1; python_version >= "3.6"
+fastapi==0.65.2; python_version >= "3.6"
 first==2.0.2
 flake8==3.9.2; python_version >= "2.7" and python_full_version < "3.0.0" or python_full_version >= "3.5.0"
 h11==0.12.0; python_version >= "3.6"
@@ -34,9 +34,9 @@ pytest==5.4.3; python_version >= "3.5"
 python-rapidjson==0.9.4; python_version ~= "3.6"
 single-version==1.5.1; python_version >= "3.6" and python_version < "4.0"
 starlette==0.14.2; python_version >= "3.6"
-typed-argument-parser==1.6.2
-typing-extensions==3.7.4.3; python_version < "3.8" and python_version >= "3.6" and python_full_version >= "3.6.1"
-typing-inspect==0.7.0
+typed-argument-parser==1.6.3
+typing-extensions==3.10.0.0; python_version < "3.8" and python_version >= "3.6" and python_full_version >= "3.6.1"
+typing-inspect==0.6.0
 uvicorn==0.14.0
 wcwidth==0.2.5; python_version >= "3.5"
 yarl==1.6.3; python_version >= "3.6"
