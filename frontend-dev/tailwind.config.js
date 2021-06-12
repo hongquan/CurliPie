@@ -1,4 +1,6 @@
 module.exports = {
+  // To defeat Typography plugin
+  important: true,
   purge: [
     '../api/**/*.jinja',
   ],

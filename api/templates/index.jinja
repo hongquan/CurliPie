@@ -9,7 +9,7 @@
     <meta property='og:title' content='Online tool to convert cURL command to HTTPie'>
     <meta property='og:image' content='https://www.nicepng.com/png/full/6-60631_pie-png.png'>
     <link rel='icon' href="{{ url_for('static', path='favicon.png') }}">
-    <link rel='stylesheet' href="{{ url_for('static', path='tailwind.css?v=4') }}">
+    <link rel='stylesheet' href="{{ url_for('static', path='tailwind.css?v=7') }}">
     <link rel='stylesheet'
       href="{{ url_for('static', path='highlight/styles/a11y-dark.min.css') }}">
     <title>CurliPie</title>
@@ -21,14 +21,14 @@
     <header class='container mx-auto w-full max-w-4xl px-2 mb-8 flex flex-col md:flex-row md:items-end space-y-4 md:space-x-4'>
       <div><img alt='CurliPie logo' src='https://www.nicepng.com/png/full/6-60631_pie-png.png' class='h-48 m-0'></div>
       <div class='prose'>
-        <h1 class=''>Let's convert from <a href='https://curl.haxx.se'>cURL</a> to <a href='https://httpie.org'>HTTPie</a></h1>
+        <h1 class=''>Let's convert from <a href='https://curl.haxx.se' class='text-blue-800'>cURL</a> to <a href='https://httpie.org' class='text-purple-600'>HTTPie</a></h1>
       </div>
     </header>
     <main class='prose container mx-auto w-full max-w-4xl px-2 flex-1' x-data='app()'>
       <form method='POST' x-on:submit.prevent='onSubmit' class='flex flex-col md:flex-row items-center space-y-4 md:space-x-4'>
         <textarea name='curl' class='w-full font-mono' x-model='curl'></textarea>
         <div>
-          <button class='w-full md:w-auto px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700'>Submit</button>
+          <button class='w-full md:w-auto px-4 py-2 text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:ring-2'>Convert</button>
         </div>
       </form>
 
@@ -61,7 +61,7 @@
       <p>
         Author: <a href='https://quan.hoabinh.vn'>Nguyễn Hồng Quân</a><br/>
         Tool to demonstrate <a href='https://pypi.org/project/curlipie/'>CurliPie</a> ability.
-        This online tool is built with <a href='https://github.com/alpinejs/alpine'>AlpineJS</a>, <a href='https://tailwindcss.com'>TailwindCSS</a>, <a href='https://fastapi.tiangolo.com/'>FastAPI</a>.<br/>
+        This online tool is built with <a href='https://tailwindcss.com'>TailwindCSS</a>, <a href='https://github.com/alpinejs/alpine'>AlpineJS</a> and <a href='https://fastapi.tiangolo.com/'>FastAPI</a>.<br/>
         Logo is from <a href='www.nicepng.com'>nicepng.com</a>.
         Icon is from <a href='www.freepik.com'>Freepik</a>.
       </p>
