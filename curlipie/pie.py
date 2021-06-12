@@ -1,13 +1,12 @@
 import re
 import shlex
 import logging
-import dataclasses
 from shlex import quote
 from collections import deque
 from typing import List
 
 from first import first
-from pydantic.dataclasses import dataclass
+from pydantic import BaseModel
 from http_constants.headers import HttpHeaders as HH
 from .compat import json_dump
 from .curly import CURLArgumentParser
@@ -17,10 +16,17 @@ REGEX_SINGLE_OPT = re.compile(r'-\w$')
 logger = logging.getLogger(__name__)
 
 
-@dataclass
-class ConversionResult:
+class ConversionResult(BaseModel):
     httpie: str
-    errors: List[str] = dataclasses.field(default_factory=list)
+    errors: List[str] = []
+
+    class Config:
+        schema_extra = {
+            'example': {
+                'httpie': 'http -fa admin:xxx quan.hoabinh.vn/api/users name=meow',
+                'errors': []
+            }
+        }
 
 
 def join_previous_arg(cmds: List[str], name: str):
@@ -39,13 +45,13 @@ def curl_to_httpie(cmd: str, long_option: bool = False) -> ConversionResult:
         cargs = shlex.split(oneline)
     except ValueError as e:
         logger.error('Failed to parse as shell command. Error: %s', e)
-        return ConversionResult('', errors=[str(e)])
+        return ConversionResult(httpie='', errors=[str(e)])
     if not cargs:
-        return ConversionResult('')
+        return ConversionResult(httpie='')
     if cargs[0] == 'curl':
         cargs = cargs[1:]
         if not cargs:
-            return ConversionResult('http')
+            return ConversionResult(httpie='http')
     args = CURLArgumentParser().parse_args(cargs)
     cmds = deque(['http'])
     if args.verbose:
@@ -144,4 +150,4 @@ def curl_to_httpie(cmd: str, long_option: bool = False) -> ConversionResult:
     if args.output:
         param = '-o' if not long_option else '--output'
         cmds.extend((param, quote(args.output)))
-    return ConversionResult(' '.join(cmds), args._errors)
+    return ConversionResult(httpie=' '.join(cmds), errors=args._errors)

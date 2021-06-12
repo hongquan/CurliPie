@@ -9,6 +9,7 @@ from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 
 from curlipie import curl_to_httpie
+from curlipie.pie import ConversionResult
 
 
 PUBLIC_DIR = Path(__file__).parent / '_public'
@@ -24,6 +25,14 @@ class CurlCmd(BaseModel):
     curl: str
     long_option: bool = False
 
+    class Config:
+        schema_extra = {
+            'example': {
+                'curl': 'curl -X POST http://quan.hoabinh.vn/api/users --user admin:xxx -d name=meow',
+                'long_option': False,
+            }
+        }
+
 
 app = FastAPI(debug=True, title='CurliPie online API')
 logger = logbook.Logger(__name__, logbook.DEBUG)
@@ -36,7 +45,7 @@ def hello(request: Request):
     return templates.TemplateResponse('index.jinja', {'request': request, 'TRACKING': settings.tracking})
 
 
-@app.post('/api/')
+@app.post('/api/', response_model=ConversionResult)
 async def convert(cmd: CurlCmd):
     try:
         result = curl_to_httpie(cmd.curl, cmd.long_option)
