@@ -1,5 +1,5 @@
-import ky from './ky.min.js';
-import './highlight/highlight.js';
+import ky from 'https://unpkg.com/ky';
+import 'https://unpkg.com/@highlightjs/cdn-assets@11.0.1/highlight.min.js';
 
 window.app = function() {
   return {

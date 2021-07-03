@@ -9,9 +9,8 @@
     <meta property='og:title' content='Online tool to convert cURL command to HTTPie'>
     <meta property='og:image' content='https://www.nicepng.com/png/full/6-60631_pie-png.png'>
     <link rel='icon' href="{{ url_for('static', path='favicon.png') }}">
-    <link rel='stylesheet' href="{{ url_for('static', path='tailwind.css?v=7') }}">
-    <link rel='stylesheet'
-      href="{{ url_for('static', path='highlight/styles/a11y-dark.min.css') }}">
+    <link rel='stylesheet' href="{{ url_for('static', path='tailwind.css?v=2.2.4') }}">
+    <link rel='stylesheet' href='https://unpkg.com/@highlightjs/cdn-assets@11.0.1/styles/a11y-dark.min.css'>
     <title>CurliPie</title>
   </head>
   <body class='min-h-screen flex flex-col'>
@@ -67,9 +66,8 @@
       </p>
       <img class='mx-auto' src='https://madewithlove.vercel.app/vn?heart=true&colorA=%23ffcd00&colorB=%23da251d'>
     </footer>
-    <script type='modulepreload' src="{{ url_for('static', path='ky.min.js') }}"></script>
-    <script src="{{ url_for('static', path='highlight/highlight.js') }}"></script>
-    <script src="{{ url_for('static', path='highlight/languages/bash.min.js') }}"></script>
+    <script type='modulepreload' src='https://unpkg.com/ky'></script>
+    <script src='https://unpkg.com/@highlightjs/cdn-assets@11.0.1/highlight.min.js'></script>
     <script type='module' src="{{ url_for('static', path='main.js?v=1') }}"></script>
     <script type='module' src='https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js'></script>
     <script nomodule src='https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine-ie11.min.js' defer></script>
