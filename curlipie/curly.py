@@ -4,7 +4,6 @@ from typing import List, Optional, Tuple
 from dataclasses import dataclass, field
 from collections import OrderedDict, deque
 from urllib.parse import parse_qsl
-from json.decoder import JSONDecodeError
 
 import yarl
 from tap import Tap
@@ -13,7 +12,7 @@ from kiss_headers import parse_it, get_polymorphic, ContentType, BasicAuthorizat
 from kiss_headers import Headers, Header
 from http_constants.headers import HttpHeaders as HH
 
-from .compat import json_load
+from .compat import json_load, JSONDecodeError
 
 
 logger = Logger(__name__)
