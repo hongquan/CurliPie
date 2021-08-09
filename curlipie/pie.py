@@ -157,4 +157,4 @@ def curl_to_httpie(cmd: str, long_option: bool = False) -> ConversionResult:
     if args.output:
         param = '-o' if not long_option else '--output'
         cmds.extend((param, quote(args.output)))
-    return ConversionResult(httpie=' '.join(cmds), errors=args._errors)
+    return ConversionResult(httpie=' '.join(cmds), errors=frozenset(args._errors))

@@ -49,14 +49,14 @@
         </div>
       </div>
 
-      <ul>
+      <ul class='text-sm text-red-400'>
         <template x-for='(err, i) in errors' :key='i'>
           <li x-text='err'></li>
         </template>
       </ul>
     </main>
     <!-- built files will be auto injected -->
-    <footer class='prose container mx-auto w-full max-w-4xl px-2 pb-2 text-sm text-center'>
+    <footer class='prose container mt-4 mx-auto w-full max-w-4xl px-2 pb-2 text-sm text-center'>
       <p>
         Author: <a href='https://quan.hoabinh.vn'>Nguyễn Hồng Quân</a><br/>
         Tool to demonstrate <a href='https://pypi.org/project/curlipie/'>CurliPie</a> ability.
@@ -67,8 +67,8 @@
       <img class='mx-auto' src='https://madewithlove.vercel.app/vn?heart=true&colorA=%23ffcd00&colorB=%23da251d'>
     </footer>
     <script type='modulepreload' src='https://unpkg.com/ky'></script>
-    <script src='https://unpkg.com/@highlightjs/cdn-assets@11.0.1/highlight.min.js'></script>
-    <script type='module' src="{{ url_for('static', path='main.js?v=1') }}"></script>
+    <script src='https://unpkg.com/@highlightjs/cdn-assets@11.2.0/highlight.min.js'></script>
+    <script type='module' src="{{ url_for('static', path='main.js?v=2') }}"></script>
     <script type='module' src='https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js'></script>
     <script nomodule src='https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine-ie11.min.js' defer></script>
 
