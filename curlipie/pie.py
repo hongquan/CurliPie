@@ -13,6 +13,7 @@ from .curly import CURLArgumentParser
 
 
 REGEX_SINGLE_OPT = re.compile(r'-\w$')
+REGEX_SHELL_LINEBREAK = re.compile(r'\\\s+')
 logger = logging.getLogger(__name__)
 
 
@@ -37,10 +38,16 @@ def join_previous_arg(cmds: List[str], name: str):
         cmds.append(f'-{name}')
 
 
+def clean_curl(cmd: str):
+    ''' Remove slash-escaped newlines and normal newlines from curl command.'''
+    stripped = REGEX_SHELL_LINEBREAK.sub(' ', cmd)
+    return ' '.join(stripped.splitlines())
+
+
 def curl_to_httpie(cmd: str, long_option: bool = False) -> ConversionResult:
     # The cmd can be multiline string, with escape symbols, shlex doesn't support it, so
     # we should convert it to one-line first.
-    oneline = ''.join(cmd.splitlines())
+    oneline = clean_curl(cmd)
     try:
         cargs = shlex.split(oneline)
     except ValueError as e:

@@ -98,6 +98,14 @@ def test_multi_line():
                       """boarding_floor=1 destination_floor=9 elevator_bank_number=3""")
 
 
+def test_escaped_linebreak():
+    curl = r"""curl -H 'Content-Type: application/json' \
+            -X POST http://127.0.0.1:5984/demo \
+            -d '{"company": "Example, Inc."}'"""
+    httpie = curl_to_httpie(curl).httpie
+    assert httpie == "http 127.0.0.1:5984/demo company='Example, Inc.'"
+
+
 def test_json_with_quote_escape():
     curl = ('curl --url http://localhost:3000/posts -H "Content-Type: application/json;charset=UTF-8" '
             r'-d "{\"title\":\"murat\",\"author\":\"öner\"}"')

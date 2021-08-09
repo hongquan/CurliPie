@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "curlipie"
-version = "0.8.0"
+version = "0.8.1"
 description = "Library to convert cURL command line to HTTPie"
 authors = ["Nguyễn Hồng Quân <ng.hong.quan@gmail.com>"]
 maintainers = [
