@@ -149,7 +149,7 @@ def curl_to_httpie(cmd: str, long_option: bool = False) -> ConversionResult:
                 v = quote(json_dump(v))
             cmds.append(f'{qp}:={v}' if not args.get else f'{qp}=={quote(str(v))}')
     if args.data_binary:
-        fn = first(v for v in args.data_binary if v.startswith('@'))
+        fn = first(v for v in args.data_binary if v and v.startswith('@'))
         if fn:
             # Strip @
             fn = fn[1:]
