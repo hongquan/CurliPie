@@ -19,28 +19,63 @@ classifiers = [
 keywords = ["api", "http", "curl", "httpie", "cli", "conversion"]
 
 [tool.poetry.dependencies]
-python = "^3.6.1"
-multidict = "^4.7.4"
-yarl = "^1.4.2"
-orjson = { version = "^2.2.0", markers = "python_version >= '3.7'" }
+python = "^3.9"
+multidict = "^6.0.4"
+yarl = "^1.8.2"
+orjson = "^3.8.6"
 first = "^2.0.2"
-python-rapidjson = { version = "^0.9.1", markers = "python_version ~= '3.6'" }
-http-constants = "^0.4.0"
+python-rapidjson = "^1.9"
+http-constants = "^0.5.0"
 logbook = "^1.5.3"
 single-version = "^1.5.1"
-kiss-headers = "^2.3.0"
-pydantic = "^1.8.2"
-Jinja2 = "^3.0.1"
-typed-argument-parser = "^1.7.0"
+kiss-headers = "^2.3.1"
+pydantic = "^1.10.4"
+Jinja2 = "^3.1.2"
+typed-argument-parser = "^1.7.2"
 
-[tool.poetry.dev-dependencies]
-pytest = "^5.2"
-devtools = "^0.5.1"
-pytest-flake8 = "^1.0.4"
-fastapi = "^0.65.2"
-uvicorn = "^0.14.0"
-aiofiles = "^0.7.0"
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.2.1"
+devtools = "^0.10.0"
+fastapi = "^0.92.0"
+uvicorn = "^0.20.0"
+aiofiles = "^23.1.0"
+ruff = "^0.0.246"
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+testpaths = ["tests", "curlipie"]
+
+[tool.ruff]
+line-length = 120
+# Enable Pyflakes `E` and `F` codes by default.
+select = ["E", "F"]
+ignore = []
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+]
+# Allow unused variables when underscore-prefixed.
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+target-version = "py39"
 
 [build-system]
-requires = ["poetry>=0.12"]
-build-backend = "poetry.masonry.api"
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
