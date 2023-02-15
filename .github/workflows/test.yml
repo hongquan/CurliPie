@@ -9,11 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - uses: actions/setup-python@v1
+      - uses: actions/setup-python@v4
         with:
-          python-version: 3.7
-      - uses: Gr1N/setup-poetry@v4
-        with:
-          poetry-version: 1.1.4
+          python-version: 3.9
+      - uses: abatilo/actions-poetry@v2
       - run: poetry install --no-root
       - run: poetry run pytest
