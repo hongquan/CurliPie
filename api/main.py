@@ -4,7 +4,8 @@ import logbook
 from logbook.compat import LoggingHandler
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel, BaseSettings
+from pydantic import BaseModel
+from pydantic_settings import BaseSettings
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 
