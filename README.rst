@@ -2,7 +2,7 @@
 CurliPie
 ========
 
-.. image:: https://madewithlove.vercel.app/vn?heart=true&colorA=%23ffcd00&colorB=%23da251d
+.. image:: https://madewithlove.open-api.vn/vn?heart=true&colorA=%23ffcd00&colorB=%23da251d
 .. image:: https://badgen.net/pypi/v/curlipie
    :target: https://pypi.org/project/curlipie
 
@@ -87,7 +87,7 @@ Online tool
 
 CurliPie is not very usable if it stays in library form, so I made an online tool for you to use it quickly:
 
-https://curlipie.vercel.app
+https://curlipie.open-api.vn
 
 The site also provide HTTP API for you to develop a client for it.
 
@@ -99,9 +99,9 @@ This repo contains three components:
 
 - Python library ``curlipie``. This is the one `published`_ to PyPI.
 
-- An API server built with `FastAPI`_, playing role of backend for `curlipie.vercel.app`_.
+- An API server built with `FastAPI`_, playing role of backend for `curlipie.open-api.vn`_.
 
-- A minimal frontend app built with `AlpineJS`_ and `TailwindCSS`_.
+- A minimal frontend app built with `AlpineJS`_ and `UnoCSS`_ (with `TailwindCSS`_ style).
 
 - Python dependencies are managed with `Poetry`_.
 
@@ -113,11 +113,11 @@ To try running on localhost:
 
     uvicorn api.main:app
 
-- The front-end are just static files, served by backend also, so you can access it via http://localhost:8000/. But because TailwindCSS is configured to strip unused CSS classes, you may need to rerun this command, inside *frontend-dev* folder, to keep your classes:
+- The front-end are just static files, served by backend also, so you can access it via http://localhost:8000/. The CSS is generated depending on which CSS classes are used. To generate CSS file, install `Bun`_, then run the command:
 
   .. code-block:: sh
 
-    yarn build-tailwind
+    ./tools/generate-css.sh
 
 
 Unit test:
@@ -143,9 +143,11 @@ Brought to you by `Nguyễn Hồng Quân <author_>`_.
 .. _go_tutorial: https://gobyexample.com/command-line-flags
 .. _published: https://pypi.org/project/curlipie/
 .. _fastapi: https://github.com/tiangolo/fastapi
-.. _curlipie.vercel.app: https://curlipie.vercel.app/
+.. _curlipie.open-api.vn: https://curlipie.open-api.vn/
 .. _vuejs: https://vuejs.org/
 .. _alpinejs: https://github.com/alpinejs/alpine
+.. _unocss: https://unocss.dev/
 .. _tailwindcss: https://tailwindcss.com
+.. _bun: https://bun.css
 .. _poetry: https://python-poetry.org/
 .. _author: https://quan.hoabinh.vn

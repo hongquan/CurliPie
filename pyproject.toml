@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "curlipie"
-version = "0.8.3"
+version = "0.9.0"
 description = "Library to convert cURL command line to HTTPie"
 authors = ["Nguyễn Hồng Quân <ng.hong.quan@gmail.com>"]
 maintainers = [
@@ -19,28 +19,27 @@ classifiers = [
 keywords = ["api", "http", "curl", "httpie", "cli", "conversion"]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.11"
 multidict = "^6.0.5"
 yarl = "^1.9.4"
-orjson = "^3.9.15"
+orjson = "^3.10.3"
 first = "^2.0.2"
-python-rapidjson = "^1.15"
 http-constants = "^0.5.0"
 logbook = "^1.7.0.post0"
 single-version = "^1.6.0"
 kiss-headers = "^2.4.3"
-pydantic = "^2.6.4"
-Jinja2 = "^3.1.3"
-typed-argument-parser = "^1.9.0"
+pydantic = "^2.7.2"
+Jinja2 = "^3.1.4"
+typed-argument-parser = "^1.10.0"
 pydantic-settings = "^2.2.1"
+uvicorn = "^0.30.0"
 
 [tool.poetry.group.dev.dependencies]
-pytest = "^8.0.2"
+pytest = "^8.2.1"
 devtools = "^0.12.2"
-fastapi = "^0.110.0"
+fastapi = "^0.111.0"
 aiofiles = "^23.2.1"
-ruff = "^0.3.5"
-uvicorn = "^0.29.0"
+ruff = "^0.4.7"
 
 [tool.pytest.ini_options]
 minversion = "6.0"
@@ -48,9 +47,6 @@ testpaths = ["tests", "curlipie"]
 
 [tool.ruff]
 line-length = 120
-# Enable Pyflakes `E` and `F` codes by default.
-select = ["E", "F"]
-ignore = []
 # Exclude a variety of commonly ignored directories.
 exclude = [
     ".bzr",
@@ -73,9 +69,14 @@ exclude = [
     "node_modules",
     "venv",
 ]
+target-version = "py312"
+
+[tool.ruff.lint]
+# Enable Pyflakes `E` and `F` codes by default.
+select = ["E", "F"]
+ignore = []
 # Allow unused variables when underscore-prefixed.
 dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
-target-version = "py39"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
