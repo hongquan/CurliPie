@@ -24,7 +24,7 @@
         <h1 class=''>Let's convert from <a href='https://curl.haxx.se'>cURL</a> to <a href='https://httpie.org' class='text-purple-600'>HTTPie</a></h1>
       </div>
     </header>
-    <main x-data='app()'>
+    <main x-data='app'>
       <form method='POST' x-on:submit.prevent='onSubmit' class='flex flex-col md:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4'>
         <div class='grow'>
           <textarea name='curl' class='font-mono' x-model='curl'></textarea>
@@ -63,7 +63,7 @@
       <p>
         Author: <a href='https://quan.hoabinh.vn'>Nguyễn Hồng Quân</a><br/>
         Tool to demonstrate <a href='https://pypi.org/project/curlipie/'>CurliPie</a> ability.
-        This online tool is built with <a href='https://matcha.mizu.sh'>MatchCSS</a>, <a href='https://unocss.dev/'>UnoCSS</a>, <a href='https://github.com/alpinejs/alpine'>AlpineJS</a> and <a href='https://fastapi.tiangolo.com/'>FastAPI</a>.<br/>
+        This online tool is built with <a href='https://matcha.mizu.sh'>MatchaCSS</a>, <a href='https://unocss.dev/'>UnoCSS</a>, <a href='https://github.com/alpinejs/alpine'>AlpineJS</a> and <a href='https://fastapi.tiangolo.com/'>FastAPI</a>.<br/>
         Logo is from <a href='www.nicepng.com'>nicepng.com</a>.
         Icon is from <a href='www.freepik.com'>Freepik</a>.
       </p>
@@ -72,8 +72,6 @@
     <script type='modulepreload' src='https://unpkg.com/ky'></script>
     <script src='https://unpkg.com/@highlightjs/cdn-assets@11.2.0/highlight.min.js'></script>
     <script type='module' src="{{ url_for('static', path='main.js?v=2') }}"></script>
-    <script type='module' src='https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js'></script>
-    <script nomodule src='https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine-ie11.min.js' defer></script>
 
     {% if TRACKING %}
       <!-- Matomo -->
