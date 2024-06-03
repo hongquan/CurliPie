@@ -2,7 +2,7 @@
 CurliPie
 ========
 
-.. image:: https://madewithlove.open-api.vn/vn?heart=true&colorA=%23ffcd00&colorB=%23da251d
+.. image:: https://madewithlove.vercel.app/vn?heart=true&colorA=%23ffcd00&colorB=%23da251d
 .. image:: https://badgen.net/pypi/v/curlipie
    :target: https://pypi.org/project/curlipie
 
