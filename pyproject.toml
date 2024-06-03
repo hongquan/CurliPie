@@ -29,10 +29,8 @@ logbook = "^1.7.0.post0"
 single-version = "^1.6.0"
 kiss-headers = "^2.4.3"
 pydantic = "^2.7.2"
-Jinja2 = "^3.1.4"
 typed-argument-parser = "^1.10.0"
 pydantic-settings = "^2.2.1"
-uvicorn = "^0.30.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.2.1"
@@ -40,6 +38,8 @@ devtools = "^0.12.2"
 fastapi = "^0.111.0"
 aiofiles = "^23.2.1"
 ruff = "^0.4.7"
+uvicorn = "^0.30.1"
+jinja2 = "^3.1.4"
 
 [tool.pytest.ini_options]
 minversion = "6.0"

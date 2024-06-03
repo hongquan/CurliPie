@@ -1,3 +1,4 @@
+from http import HTTPStatus
 from pathlib import Path
 
 import logbook
@@ -52,7 +53,7 @@ async def convert(cmd: CurlCmd):
     except TypeError as e:
         logger.error('Got error: {}', e)
         logger.debug('Posted data: {}', cmd)
-        raise HTTPException(400, 'Invalid input data')
+        raise HTTPException(HTTPStatus.BAD_REQUEST, 'Invalid input data')
     return result
 
 
