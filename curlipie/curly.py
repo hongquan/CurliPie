@@ -6,13 +6,13 @@ from collections import OrderedDict, deque
 from urllib.parse import parse_qsl
 
 import yarl
+import orjson
 from tap import Tap
 from logbook import Logger
 from kiss_headers import parse_it, get_polymorphic, ContentType, BasicAuthorization
 from kiss_headers import Headers, Header
 from http_constants.headers import HttpHeaders as HH
 
-from .compat import json_load, JSONDecodeError
 
 
 logger = Logger(__name__)
@@ -189,8 +189,8 @@ def parse_post_data(string: str, ignore_at: bool = False) -> DataArgParseResult:
         return DataArgParseResult(data, errors)
     # Maybe JSON?
     try:
-        jsdata = json_load(string)
-    except JSONDecodeError:
+        jsdata = orjson.loads(string.encode())
+    except orjson.JSONDecodeError:
         # Not JSON
         errors.append('Cannot guess post data format')
         return DataArgParseResult(data, errors)

@@ -5,29 +5,23 @@ from shlex import quote
 from collections import deque
 from typing import List
 
+import orjson
 from first import first
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from http_constants.headers import HttpHeaders as HH
-from .compat import json_dump
 from .curly import CURLArgumentParser
 
 
 REGEX_SINGLE_OPT = re.compile(r'-\w$')
 REGEX_SHELL_LINEBREAK = re.compile(r'\\\s+')
 logger = logging.getLogger(__name__)
+EXAMPLE = {'httpie': 'http -fa admin:xxx quan.hoabinh.vn/api/users name=meow', 'errors': []}
 
 
 class ConversionResult(BaseModel):
+    model_config = ConfigDict(json_schema_extra={'example': EXAMPLE})
     httpie: str
     errors: List[str] = []
-
-    class Config:
-        schema_extra = {
-            'example': {
-                'httpie': 'http -fa admin:xxx quan.hoabinh.vn/api/users name=meow',
-                'errors': []
-            }
-        }
 
 
 def join_previous_arg(cmds: List[str], name: str):
@@ -39,7 +33,7 @@ def join_previous_arg(cmds: List[str], name: str):
 
 
 def clean_curl(cmd: str):
-    ''' Remove slash-escaped newlines and normal newlines from curl command.'''
+    """Remove slash-escaped newlines and normal newlines from curl command."""
     stripped = REGEX_SHELL_LINEBREAK.sub(' ', cmd)
     return ' '.join(stripped.splitlines())
 
@@ -144,9 +138,9 @@ def curl_to_httpie(cmd: str, long_option: bool = False) -> ConversionResult:
         try:
             qv = quote(v)
             cmds.append(f'{qp}={qv}' if not args.get else f'{qp}=={qv}')
-        except TypeError:     # v is not string, normally after parsed from JSON
+        except TypeError:  # v is not string, normally after parsed from JSON
             if isinstance(v, (list, dict)):
-                v = quote(json_dump(v))
+                v = quote(orjson.dumps(v).decode())
             cmds.append(f'{qp}:={v}' if not args.get else f'{qp}=={quote(str(v))}')
     if args.data_binary:
         fn = first(v for v in args.data_binary if v and v.startswith('@'))
