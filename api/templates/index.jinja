@@ -9,9 +9,8 @@
     <meta property='og:title' content='Online tool to convert cURL command to HTTPie'>
     <meta property='og:image' content='https://www.nicepng.com/png/full/6-60631_pie-png.png'>
     <link rel='icon' href="{{ url_for('static', path='favicon.png') }}">
-    <link rel='stylesheet' href='https://matcha.mizu.sh/matcha.css'>
+    <link rel='stylesheet' href='https://matcha.mizu.sh/matcha.lite.css'>
     <link rel='stylesheet' href="{{ url_for('static', path='uno.css?v=1') }}">
-    <link rel='stylesheet' href='https://unpkg.com/@highlightjs/cdn-assets@11.0.1/styles/a11y-dark.min.css'>
     <title>CurliPie</title>
   </head>
   <body>
@@ -25,11 +24,11 @@
       </div>
     </header>
     <main x-data='app'>
-      <form method='POST' x-on:submit.prevent='onSubmit' class='flex flex-col md:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4'>
+      <form method='POST' x-on:submit.prevent='onSubmit' class='flex flex-col sm:flex-row sm:items-center space-y-4 sm:space-y-0 sm:space-x-4'>
         <div class='grow'>
-          <textarea name='curl' class='font-mono' x-model='curl'></textarea>
+          <textarea name='curl' class='font-mono resize-y sm:resize-none' x-model='curl'></textarea>
         </div>
-        <div class='min-w-20'>
+        <div class='min-w-20 text-center'>
           <button>Convert</button>
         </div>
       </form>

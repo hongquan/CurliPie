@@ -1,7 +1,14 @@
 import ky from 'https://unpkg.com/ky'
 import Alpine from 'https://esm.sh/alpinejs@3.14.0'
-import 'https://unpkg.com/@highlightjs/cdn-assets@11.2.0/highlight.min.js'
-import 'https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.2.0/build/languages/shell.min.js'
+import { getHighlighter } from 'https://esm.sh/shiki'
+
+
+const highlighter = await getHighlighter({
+  themes: ['andromeeda'],
+  langs: ['shellsession', 'shell'],
+})
+
+console.log('highlighter', highlighter)
 
 
 document.addEventListener('alpine:init', () => {
@@ -15,7 +22,8 @@ document.addEventListener('alpine:init', () => {
       this.errors = errors
     },
     colorizeHttpie() {
-      return hljs.highlight(this.httpie, { language: 'shell' }).value
+      if (!this.httpie) return ''
+      return highlighter.codeToHtml(this.httpie, { lang: 'shellsession', theme: 'andromeeda' })
     }
   }))
 })
