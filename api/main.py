@@ -6,6 +6,7 @@ from logbook.compat import LoggingHandler
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, ConfigDict
+from pydantic.config import JsonValue
 from pydantic_settings import BaseSettings
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
@@ -23,7 +24,7 @@ class Settings(BaseSettings):
     tracking: bool = False
 
 
-EXAMPLE = {
+EXAMPLE: JsonValue = {
     'curl': 'curl -X POST http://quan.hoabinh.vn/api/users --user admin:xxx -d name=meow',
     'long_option': False,
 }

@@ -1,73 +1,110 @@
-[tool.poetry]
+[project]
 name = "curlipie"
-version = "0.9.0"
 description = "Library to convert cURL command line to HTTPie"
-authors = ["Nguyễn Hồng Quân <ng.hong.quan@gmail.com>"]
-maintainers = [
-    "Nguyễn Hồng Quân <ng.hong.quan@gmail.com>"
-]
-license = "MPL-2.0"
+authors = [{ name = "Nguyễn Hồng Quân", email = "ng.hong.quan@gmail.com" }]
+maintainers = [{ name = "Nguyễn Hồng Quân", email = "ng.hong.quan@gmail.com" }]
+dynamic = ["version"]
 readme = "README.rst"
-repository = "https://github.com/hongquan/CurliPie.git"
+license = { text = "MPL-2.0" }
+requires-python = "<4.0,>=3.11"
+dependencies = [
+  "multidict>=6.1.0",
+  "yarl>=1.18.3",
+  "orjson>=3.10.15",
+  "first>=2.0.2",
+  "http-constants>=0.5.0",
+  "logbook>=1.8.0",
+  "single-version>=1.6.0",
+  "kiss-headers>=2.5.0",
+  "pydantic>=2.10.6",
+  "typed-argument-parser>=1.10.1",
+  "pydantic-settings>=2.7.1",
+]
 classifiers = [
-    "Intended Audience :: Developers",
-    "Intended Audience :: System Administrators",
-    "Environment :: Web Environment",
-    "Topic :: Internet :: WWW/HTTP",
-    "Topic :: Software Development :: Libraries :: Python Modules"
+  "Intended Audience :: Developers",
+  "Intended Audience :: System Administrators",
+  "Environment :: Web Environment",
+  "Topic :: Internet :: WWW/HTTP",
+  "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 keywords = ["api", "http", "curl", "httpie", "cli", "conversion"]
 
-[tool.poetry.dependencies]
-python = "^3.11"
-multidict = "^6.0.5"
-yarl = "^1.9.4"
-orjson = "^3.10.3"
-first = "^2.0.2"
-http-constants = "^0.5.0"
-logbook = "^1.7.0.post0"
-single-version = "^1.6.0"
-kiss-headers = "^2.4.3"
-pydantic = "^2.7.2"
-typed-argument-parser = "^1.10.0"
-pydantic-settings = "^2.2.1"
+[project.urls]
+repository = "https://github.com/hongquan/CurliPie.git"
 
-[tool.poetry.group.dev.dependencies]
-pytest = "^8.2.1"
-devtools = "^0.12.2"
-fastapi = "^0.111.0"
-aiofiles = "^23.2.1"
-ruff = "^0.4.7"
-uvicorn = "^0.30.1"
-jinja2 = "^3.1.4"
+[dependency-groups]
+dev = [
+  "devtools>=0.12.2",
+  "fastapi>=0.115.8",
+  "aiofiles>=24.1.0",
+  "uvicorn>=0.30.1",
+  "jinja2>=3.1.5",
+]
+lint = [
+    "ruff>=0.9.5",
+]
+test = [
+    "mypy>=1.15.0",
+    "pytest-mypy>=0.10.3",
+    "types-first>=2.0.5.20240806",
+]
+
+[tool.mypy]
+python_version = "3.12"
+show_error_codes = true
+allow_redefinition = true
+plugins = [
+  "pydantic.mypy",
+]
+# These options are recommended by Pydantic.
+follow_imports = "silent"
+warn_redundant_casts = true
+warn_unused_ignores = true
+disallow_any_generics = true
+
+
+[[tool.mypy.overrides]]
+module = [
+  "devtools.*",
+  "logbook.*",
+  "http_constants.headers.*",
+]
+ignore_missing_imports = true
+
+[tool.pydantic-mypy]
+init_typed = true
+init_forbid_extra = true
+warn_required_dynamic_aliases = true
+
 
 [tool.pytest.ini_options]
-minversion = "6.0"
+minversion = "8.0"
+addopts = "--mypy"
 testpaths = ["tests", "curlipie"]
 
 [tool.ruff]
 line-length = 120
 # Exclude a variety of commonly ignored directories.
 exclude = [
-    ".bzr",
-    ".direnv",
-    ".eggs",
-    ".git",
-    ".hg",
-    ".mypy_cache",
-    ".nox",
-    ".pants.d",
-    ".ruff_cache",
-    ".svn",
-    ".tox",
-    ".venv",
-    "__pypackages__",
-    "_build",
-    "buck-out",
-    "build",
-    "dist",
-    "node_modules",
-    "venv",
+  ".bzr",
+  ".direnv",
+  ".eggs",
+  ".git",
+  ".hg",
+  ".mypy_cache",
+  ".nox",
+  ".pants.d",
+  ".ruff_cache",
+  ".svn",
+  ".tox",
+  ".venv",
+  "__pypackages__",
+  "_build",
+  "buck-out",
+  "build",
+  "dist",
+  "node_modules",
+  "venv",
 ]
 target-version = "py312"
 
@@ -82,5 +119,5 @@ dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 quote-style = "single"
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"

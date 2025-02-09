@@ -7,7 +7,8 @@ from typing import List
 
 import orjson
 from first import first
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
+from pydantic.config import JsonValue
 from http_constants.headers import HttpHeaders as HH
 from .curly import CURLArgumentParser
 
@@ -15,16 +16,16 @@ from .curly import CURLArgumentParser
 REGEX_SINGLE_OPT = re.compile(r'-\w$')
 REGEX_SHELL_LINEBREAK = re.compile(r'\\\s+')
 logger = logging.getLogger(__name__)
-EXAMPLE = {'httpie': 'http -fa admin:xxx quan.hoabinh.vn/api/users name=meow', 'errors': []}
+EXAMPLE: JsonValue = {'httpie': 'http -fa admin:xxx quan.hoabinh.vn/api/users name=meow', 'errors': []}
 
 
 class ConversionResult(BaseModel):
     model_config = ConfigDict(json_schema_extra={'example': EXAMPLE})
     httpie: str
-    errors: List[str] = []
+    errors: deque[str] = Field(default_factory=deque)
 
 
-def join_previous_arg(cmds: List[str], name: str):
+def join_previous_arg(cmds: deque[str], name: str) -> None:
     prev_arg = cmds[-1]
     if REGEX_SINGLE_OPT.match(prev_arg):
         cmds[-1] += name
@@ -32,7 +33,7 @@ def join_previous_arg(cmds: List[str], name: str):
         cmds.append(f'-{name}')
 
 
-def clean_curl(cmd: str):
+def clean_curl(cmd: str) -> str:
     """Remove slash-escaped newlines and normal newlines from curl command."""
     stripped = REGEX_SHELL_LINEBREAK.sub(' ', cmd)
     return ' '.join(stripped.splitlines())
@@ -46,7 +47,7 @@ def curl_to_httpie(cmd: str, long_option: bool = False) -> ConversionResult:
         cargs = shlex.split(oneline)
     except ValueError as e:
         logger.error('Failed to parse as shell command. Error: %s', e)
-        return ConversionResult(httpie='', errors=[str(e)])
+        return ConversionResult(httpie='', errors=deque([str(e)]))
     if not cargs:
         return ConversionResult(httpie='')
     if cargs[0] == 'curl':
@@ -74,27 +75,26 @@ def curl_to_httpie(cmd: str, long_option: bool = False) -> ConversionResult:
             join_previous_arg(cmds, 'f')
     if args.proxy:
         cmds.extend(('--proxy', args.proxy))
-    if args.user or args._auth:
-        user = args.user
-        if not user and args._auth:
-            user = ':'.join(args._auth.get_username_password())
+    user = args.user if args.user else (':'.join(args._auth.get_username_password()) if args._auth else None)
+    if user:
         if long_option:
             cmds.extend(('--auth', quote(user)))
         else:
             join_previous_arg(cmds, 'a')
             cmds.append(quote(user))
+        
     if args.include:
         cmds.append('--all')
     if args.insecure:
-        cmds.append('--verify', 'no')
+        cmds.extend(('--verify', 'no'))
     elif args.cacert:
         cmds.extend(('--verify', args.cacert))
     if args.cert:
         cmds.extend(('--cert', quote(args.cert)))
     if args.max_redirs:
-        cmds.extend('--max-redirects', args.max_redirs)
+        cmds.extend(('--max-redirects', str(args.max_redirs)))
     if args.max_time:
-        cmds.extend('--timeout', args.max_time)
+        cmds.extend(('--timeout', str(args.max_time)))
     if args.head:
         cmds.append('HEAD')
     elif args.request and not (args._data and args.request == 'POST'):
@@ -151,4 +151,4 @@ def curl_to_httpie(cmd: str, long_option: bool = False) -> ConversionResult:
     if args.output:
         param = '-o' if not long_option else '--output'
         cmds.extend((param, quote(args.output)))
-    return ConversionResult(httpie=' '.join(cmds), errors=frozenset(args._errors))
+    return ConversionResult(httpie=' '.join(cmds), errors=deque(frozenset(args._errors)))

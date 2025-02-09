@@ -1,9 +1,9 @@
 
 import collections.abc
-from typing import List, Optional, Tuple
 from dataclasses import dataclass, field
 from collections import OrderedDict, deque
 from urllib.parse import parse_qsl
+from typing import List, Optional, Tuple, Deque
 
 import yarl
 import orjson
@@ -20,8 +20,8 @@ logger = Logger(__name__)
 
 @dataclass
 class DataArgParseResult:
-    data: List[Tuple[str, str]] = field(default_factory=list)
-    errors: List[str] = field(default_factory=list)
+    data: Deque[Tuple[str, str]] = field(default_factory=deque)
+    errors: Deque[str] = field(default_factory=deque)
 
 
 # Ref: https://helpmanual.io/help/curl/
@@ -73,7 +73,7 @@ class CURLArgumentParser(Tap):
     _request_json: bool = False
     _errors: List[str] = []
 
-    def _get_class_variables(self) -> OrderedDict:
+    def _get_class_variables(self) -> OrderedDict[str, str]:
         '''Overide to exclude our private variables'''
         all_variables = super()._get_class_variables()
         return OrderedDict((k, v) for k, v in all_variables.items() if not k.startswith('_'))
@@ -169,18 +169,18 @@ def parse_post_data(string: str, ignore_at: bool = False) -> DataArgParseResult:
     # https://ec.haxx.se/http/http-post
     if not string:
         return DataArgParseResult()
-    data = parse_qsl(string)
+    data = deque(parse_qsl(string))
     if data:
         return DataArgParseResult(data=data)
     # Standard parse_qsl failed to parse it
     if not ignore_at and '@' in string and not string.startswith('@'):
         # cURL spec says that the filename should already be url-encoded.
         key, filename = string.split('@')[:2]
-        return DataArgParseResult(data=[(key, filename)])
+        return DataArgParseResult(data=deque([(key, filename)]))
     # HTTPie doesn't support sending raw content as request body
     # (though it allows to specify raw content as the value for a field),
     # so we can ignore cURL "content", "=content", "@filename" syntaxes.
-    errors = deque()
+    errors: Deque[str] = deque()
     if string.startswith('@'):
         errors.append('@filename syntax (without field name) is not supported')
         return DataArgParseResult(data, errors)
@@ -195,7 +195,7 @@ def parse_post_data(string: str, ignore_at: bool = False) -> DataArgParseResult:
         errors.append('Cannot guess post data format')
         return DataArgParseResult(data, errors)
     if isinstance(jsdata, collections.abc.Mapping):
-        data = list(jsdata.items())
+        data = deque(jsdata.items())
         return DataArgParseResult(data, errors)
     errors.append('JSON content does not represent an object')
     return DataArgParseResult(errors=errors)
