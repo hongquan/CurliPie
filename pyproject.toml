@@ -14,7 +14,6 @@ dependencies = [
   "first>=2.0.2",
   "http-constants>=0.5.0",
   "logbook>=1.8.0",
-  "single-version>=1.6.0",
   "kiss-headers>=2.5.0",
   "pydantic>=2.10.6",
   "typed-argument-parser>=1.10.1",
@@ -51,7 +50,6 @@ test = [
 
 [tool.mypy]
 python_version = "3.12"
-show_error_codes = true
 allow_redefinition = true
 plugins = [
   "pydantic.mypy",

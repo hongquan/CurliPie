@@ -1,9 +1,9 @@
 import ky from 'https://unpkg.com/ky'
 import Alpine from 'https://esm.sh/alpinejs@3.14.0'
-import { getHighlighter } from 'https://esm.sh/shiki'
+import { createHighlighter } from 'https://esm.sh/shiki'
 
 
-const highlighter = await getHighlighter({
+const highlighter = await createHighlighter({
   themes: ['andromeeda'],
   langs: ['shellsession', 'shell'],
 })
