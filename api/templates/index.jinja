@@ -41,13 +41,24 @@
             <svg class='w-5 h-5 cursor-pointer' fill='none' stroke='currentColor' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z'></path></svg>
             <span class='font-bold select-none'>Terminal</span>
           </div>
-          <div class='flex items-center gap-1'>
+          <div class='flex items-center gap-2'>
+            <div id='hl-loading' class='flex items-center'>
+              <span class='inline-block w-4 h-4 border-2 border-white border-t-purple-500 rounded-full animate-spin drop-shadow'></span>
+            </div>
+            <div class='flex items-center' x-show='loading'>
+              <span class='inline-block w-4 h-4 border-2 border-white border-t-purple-500 rounded-full animate-spin drop-shadow'></span>
+            </div>
+            <button class='text-xs px-2 py-1 rounded bg-gray-700 hover:bg-gray-600' x-on:click='copyHttpie()'>Copy</button>
             <svg class='w-4 h-4 cursor-pointer hover:text-red-400' fill='none' stroke='currentColor' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'></path></svg>
             <svg class='w-4 h-4 cursor-pointer hover:text-red-400' fill='none' stroke='currentColor' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 15l7-7 7 7'></path></svg>
             <svg class='w-4 h-4 cursor-pointer hover:text-red-400' fill='currentColor' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'><path fill-rule='evenodd' d='M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z' clip-rule='evenodd'></path></svg>
           </div>
         </div>
-        <div class='p-1 bg-gray-900 font-mono min-h-24' x-html='colorizeHttpie()'>
+        <div class='p-1 bg-gray-900 font-mono min-h-24'>
+          <div x-show='highlighting' class='py-2'>
+            <span class='inline-block w-4 h-4 border-2 border-white border-t-purple-500 rounded-full animate-spin drop-shadow'></span>
+          </div>
+          <div x-show='!highlighting' x-html='highlightedHtml'></div>
         </div>
       </div>
 
