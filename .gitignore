@@ -113,3 +113,5 @@ node_modules
 
 .now
 .vercel
+
+.aider.*

@@ -9,8 +9,8 @@
     <meta property='og:title' content='Online tool to convert cURL command to HTTPie'>
     <meta property='og:image' content='https://www.nicepng.com/png/full/6-60631_pie-png.png'>
     <link rel='icon' href="{{ url_for('static', path='favicon.png') }}">
+    <link rel='stylesheet' href="{{ url_for('static', path='encre.css?v=1') }}">
     <link rel='stylesheet' href='https://matcha.mizu.sh/matcha.lite.css'>
-    <link rel='stylesheet' href="{{ url_for('static', path='uno.css?v=1') }}">
     <title>CurliPie</title>
   </head>
   <body>
@@ -28,7 +28,7 @@
         <div class='grow'>
           <textarea name='curl' class='font-mono resize-y sm:resize-none' x-model='curl'></textarea>
         </div>
-        <div class='min-w-20 text-center'>
+        <div class='min-w-[5rem] text-center'>
           <button>Convert</button>
         </div>
       </form>
@@ -43,7 +43,7 @@
           </div>
           <div class='flex items-center gap-2'>
             <div id='hl-loading' class='flex items-center'>
-              <span class='inline-block w-4 h-4 border-2 border-white border-t-purple-500 rounded-full animate-spin drop-shadow'></span>
+              <span class='inline-block w-4 h-4 border-2 border-solid border-white border-t-purple-500 rounded-full animate-spin drop-shadow'></span>
             </div>
             <div class='flex items-center' x-show='loading'>
               <span class='inline-block w-4 h-4 border-2 border-white border-t-purple-500 rounded-full animate-spin drop-shadow'></span>
@@ -54,7 +54,7 @@
             <svg class='w-4 h-4 cursor-pointer hover:text-red-400' fill='currentColor' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'><path fill-rule='evenodd' d='M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z' clip-rule='evenodd'></path></svg>
           </div>
         </div>
-        <div class='p-1 bg-gray-900 font-mono min-h-24'>
+        <div class='p-1 bg-gray-900 font-mono min-h-[6rem]'>
           <div x-show='highlighting' class='py-2'>
             <span class='inline-block w-4 h-4 border-2 border-white border-t-purple-500 rounded-full animate-spin drop-shadow'></span>
           </div>

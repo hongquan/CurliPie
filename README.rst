@@ -101,9 +101,9 @@ This repo contains three components:
 
 - An API server built with `FastAPI`_, playing role of backend for `curlipie.open-api.vn`_.
 
-- A minimal frontend app built with `AlpineJS`_ and `UnoCSS`_ (with `TailwindCSS`_ style).
+- A minimal frontend app built with `AlpineJS`_ and `EncreCSS`_ (CSS class names following `TailwindCSS`_ convention).
 
-- Python dependencies are managed with `Poetry`_.
+- Python dependencies are managed with `uv`_.
 
 To try running on localhost:
 
@@ -113,7 +113,7 @@ To try running on localhost:
 
     uvicorn api.main:app
 
-- The front-end are just static files, served by backend also, so you can access it via http://localhost:8000/. The CSS is generated depending on which CSS classes are used. To generate CSS file, install `Bun`_, then run the command:
+- The front-end are just static files, served by backend also, so you can access it via http://localhost:8000/. The CSS is generated depending on which CSS classes are used.
 
   .. code-block:: sh
 
@@ -146,8 +146,8 @@ Brought to you by `Nguyễn Hồng Quân <author_>`_.
 .. _curlipie.open-api.vn: https://curlipie.open-api.vn/
 .. _vuejs: https://vuejs.org/
 .. _alpinejs: https://github.com/alpinejs/alpine
-.. _unocss: https://unocss.dev/
+.. _encrecss: https://encrecss.uk.to
 .. _tailwindcss: https://tailwindcss.com
-.. _bun: https://bun.css
-.. _poetry: https://python-poetry.org/
+.. _bun: https://bun.sh
+.. _uv: https://docs.astral.sh/uv/
 .. _author: https://quan.hoabinh.vn
