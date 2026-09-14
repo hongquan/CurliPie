@@ -178,8 +178,8 @@ requires-dist = [
     { name = "first", specifier = ">=2.0.2" },
     { name = "http-constants", specifier = ">=0.5.0" },
     { name = "kiss-headers", specifier = ">=2.5.0" },
-    { name = "logbook", specifier = ">=1.9.2" },
-    { name = "multidict", specifier = ">=6.1.0" },
+    { name = "logbook", specifier = ">=1.10.1" },
+    { name = "multidict", specifier = ">=6.8.0" },
     { name = "orjson", specifier = ">=3.12.0" },
     { name = "pydantic", specifier = ">=2.13.5" },
     { name = "pydantic-settings", specifier = ">=2.15.0" },
@@ -189,17 +189,17 @@ requires-dist = [
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "aiofiles", specifier = ">=24.1.0" },
+    { name = "aiofiles", specifier = ">=25.1.0" },
     { name = "devtools", specifier = ">=0.12.2" },
-    { name = "fastapi", specifier = ">=0.115.8" },
-    { name = "jinja2", specifier = ">=3.1.5" },
-    { name = "uvicorn", specifier = ">=0.30.1" },
+    { name = "fastapi", specifier = ">=0.141.1" },
+    { name = "jinja2", specifier = ">=3.1.6" },
+    { name = "uvicorn", specifier = ">=0.52.4" },
 ]
-lint = [{ name = "ruff", specifier = ">=0.14.10" }]
+lint = [{ name = "ruff", specifier = ">=0.16.7" }]
 test = [
-    { name = "mypy", specifier = ">=1.15.0" },
-    { name = "pytest-mypy", specifier = ">=0.10.3" },
-    { name = "types-first", specifier = ">=2.0.5.20240806" },
+    { name = "mypy", specifier = ">=2.3.1" },
+    { name = "pytest-mypy", specifier = ">=1.0.1" },
+    { name = "types-first", specifier = ">=2.0.5.20260408" },
 ]
 
 [[package]]

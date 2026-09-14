@@ -11,8 +11,8 @@ dependencies = [
   "first>=2.0.2",
   "http-constants>=0.5.0",
   "kiss-headers>=2.5.0",
-  "logbook>=1.9.2",
-  "multidict>=6.1.0",
+  "logbook>=1.10.1",
+  "multidict>=6.8.0",
   "orjson>=3.12.0",
   "pydantic>=2.13.5",
   "pydantic-settings>=2.15.0",
@@ -33,19 +33,19 @@ repository = "https://github.com/hongquan/CurliPie.git"
 
 [dependency-groups]
 dev = [
-  "aiofiles>=24.1.0",
+  "aiofiles>=25.1.0",
   "devtools>=0.12.2",
-  "fastapi>=0.115.8",
-  "jinja2>=3.1.5",
-  "uvicorn>=0.30.1",
+  "fastapi>=0.141.1",
+  "jinja2>=3.1.6",
+  "uvicorn>=0.52.4",
 ]
 lint = [
-  "ruff>=0.14.10",
+  "ruff>=0.16.7",
 ]
 test = [
-  "mypy>=1.15.0",
-  "pytest-mypy>=0.10.3",
-  "types-first>=2.0.5.20240806",
+  "mypy>=2.3.1",
+  "pytest-mypy>=1.0.1",
+  "types-first>=2.0.5.20260408",
 ]
 
 [build-system]

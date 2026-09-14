@@ -73,9 +73,9 @@ class CURLArgumentParser(Tap):
     _request_json: bool = False
     _errors: List[str] = []
 
-    def _get_class_variables(self) -> OrderedDict[str, str]:
+    def _get_class_variables(self, exclude_tap_ignores: bool = True) -> OrderedDict[str, str]:
         '''Overide to exclude our private variables'''
-        all_variables = super()._get_class_variables()
+        all_variables = super()._get_class_variables(exclude_tap_ignores)
         return OrderedDict((k, v) for k, v in all_variables.items() if not k.startswith('_'))
 
     def configure(self):
