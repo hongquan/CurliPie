@@ -44,7 +44,7 @@ settings = Settings()
 
 @app.get('/', response_class=HTMLResponse)
 def hello(request: Request):
-    return templates.TemplateResponse('index.jinja', {'request': request, 'TRACKING': settings.tracking})
+    return templates.TemplateResponse(request, 'index.jinja', {'TRACKING': settings.tracking})
 
 
 @app.post('/api/', response_model=ConversionResult)
