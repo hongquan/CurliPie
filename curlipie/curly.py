@@ -9,7 +9,7 @@ import yarl
 import orjson
 from tap import Tap
 from logbook import Logger
-from kiss_headers import parse_it, get_polymorphic, ContentType, BasicAuthorization
+from kiss_headers import parse_it, get_polymorphic, ContentType, Accept, BasicAuthorization
 from kiss_headers import Headers, Header
 from http_constants.headers import HttpHeaders as HH
 
@@ -71,6 +71,7 @@ class CURLArgumentParser(Tap):
     _data: List[Tuple[str, str]] = []
     _headers: Headers
     _request_json: bool = False
+    _accept_json: bool = False
     _errors: List[str] = []
 
     def _get_class_variables(self, exclude_tap_ignores: bool = True) -> OrderedDict[str, str]:
@@ -143,8 +144,13 @@ class CURLArgumentParser(Tap):
                 continue
             if HH.CONTENT_TYPE in headers:
                 hx = get_polymorphic(headers, ContentType)
-                if hx.get_mime() == HH.CONTENT_TYPE_VALUES.json:
+                if hx and hx.get_mime() == HH.CONTENT_TYPE_VALUES.json:
                     self._request_json = True
+                    continue
+            elif HH.ACCEPT in headers:
+                hx = get_polymorphic(headers, Accept)
+                if hx and hx.has(HH.CONTENT_TYPE_VALUES.json):
+                    self._accept_json = True
                     continue
             elif HH.AUTHORIZATION in headers and headers.authorization.content.startswith('Basic '):
                 hx = get_polymorphic(headers, BasicAuthorization)
