@@ -67,6 +67,33 @@ I don't bother to help fix the online tool above, because it is written in Go. T
 Usage
 -----
 
+Command-line
+~~~~~~~~~~~~
+
+When installed, CurliPie registers a ``curlipie`` command:
+
+.. code-block:: sh
+
+    # Pass the cURL command as an argument
+    curlipie "curl -X POST http://api.example.com -d 'name=admin'"
+
+    # Or pipe from stdin (handy with clipboard tools)
+    echo "curl http://example.com --user admin:secret" | curlipie
+
+    # Run with no arguments to enter interactive mode — paste your cURL command
+    # (including multi-line backslash-continued commands from Postman or Swagger),
+    # then press Enter twice or Ctrl-D to convert
+    curlipie
+
+    # Use long-form HTTPie options instead of short flags
+    curlipie --long "curl -L -X DELETE http://api.example.com/users/1"
+
+    # Show help
+    curlipie --help
+
+Python library
+~~~~~~~~~~~~~~
+
 .. code-block:: python
 
     >>> from curlipie import curl_to_httpie

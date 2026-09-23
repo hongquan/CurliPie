@@ -28,6 +28,9 @@ classifiers = [
 ]
 keywords = ["api", "cli", "conversion", "curl", "http", "httpie"]
 
+[project.scripts]
+curlipie = "curlipie.cli:main"
+
 [project.urls]
 repository = "https://github.com/hongquan/CurliPie.git"
 
