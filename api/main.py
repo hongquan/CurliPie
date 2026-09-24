@@ -10,6 +10,7 @@ from pydantic.config import JsonValue
 from pydantic_settings import BaseSettings
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
+from starlette.templating import _TemplateResponse as TemplateResponse
 
 from curlipie import curl_to_httpie
 from curlipie.pie import ConversionResult
@@ -43,12 +44,12 @@ settings = Settings()
 
 
 @app.get('/', response_class=HTMLResponse)
-def hello(request: Request):
+def hello(request: Request) -> TemplateResponse:
     return templates.TemplateResponse(request, 'index.jinja', {'TRACKING': settings.tracking})
 
 
 @app.post('/api/', response_model=ConversionResult)
-async def convert(cmd: CurlCmd):
+async def convert(cmd: CurlCmd) -> ConversionResult:
     try:
         result = curl_to_httpie(cmd.curl, cmd.long_option)
     except TypeError as e:

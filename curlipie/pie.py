@@ -86,7 +86,7 @@ def curl_to_httpie(cmd: str, long_option: bool = False) -> ConversionResult:
         else:
             join_previous_arg(cmds, 'a')
             cmds.append(quote(user))
-        
+
     if args.include:
         cmds.append('--all')
     if args.insecure:

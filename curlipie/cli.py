@@ -1,12 +1,16 @@
 import sys
-import argparse
+
+import click
 
 from .pie import curl_to_httpie
 
 
+PROMPT = 'Paste your cURL command (press Enter twice or Ctrl-D when done):'
+
+
 def _read_interactive() -> str:
     """Prompt the user to paste a cURL command, reading until a blank line or EOF."""
-    print('Paste your cURL command (press Enter twice or Ctrl-D when done):', file=sys.stderr)
+    click.echo(PROMPT, err=True)
     lines: list[str] = []
     try:
         while True:
@@ -14,48 +18,42 @@ def _read_interactive() -> str:
             if line == '' and lines:
                 break
             lines.append(line)
-    except (EOFError, KeyboardInterrupt):
-        print(file=sys.stderr)  # newline after ^C so the shell prompt appears on its own line
+    except EOFError:
+        click.echo(err=True)
+    except KeyboardInterrupt:
+        click.echo(err=True)
     return '\n'.join(lines)
 
 
-def main() -> None:
-    parser = argparse.ArgumentParser(
-        prog='curlipie',
-        description='Convert a cURL command to an HTTPie command.',
-    )
-    parser.add_argument(
-        'curl',
-        nargs='?',
-        metavar='CURL_COMMAND',
-        help='cURL command to convert. Reads from stdin when omitted.',
-    )
-    parser.add_argument(
-        '-l',
-        '--long',
-        action='store_true',
-        default=False,
-        help='Use long-form HTTPie options (e.g. --follow instead of -F).',
-    )
-    args = parser.parse_args()
-
-    if args.curl is not None:
-        curl_cmd = args.curl.strip()
+@click.command('curlipie')
+@click.argument('curl_command', required=False, default=None)
+@click.option(
+    '-l',
+    '--long',
+    'long_option',
+    is_flag=True,
+    help='Use long-form HTTPie options (e.g. --follow instead of -F).',
+)
+@click.version_option()
+def main(curl_command: str | None, long_option: bool) -> None:
+    """Convert a cURL command to an HTTPie command."""
+    if curl_command is not None:
+        curl_cmd = curl_command.strip()
     elif not sys.stdin.isatty():
         curl_cmd = sys.stdin.read().strip()
     else:
         curl_cmd = _read_interactive().strip()
 
     if not curl_cmd:
-        sys.exit(0)
+        return
 
-    result = curl_to_httpie(curl_cmd, long_option=args.long)
+    result = curl_to_httpie(curl_cmd, long_option=long_option)
 
     if result.errors:
         for err in result.errors:
-            print(f'Warning: {err}', file=sys.stderr)
+            click.echo(f'Warning: {err}', err=True)
 
-    print(result.httpie)
+    click.echo(result.httpie)
 
 
 if __name__ == '__main__':

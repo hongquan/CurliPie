@@ -5,19 +5,20 @@ authors = [{ name = "Nguyễn Hồng Quân", email = "ng.hong.quan@gmail.com" }]
 maintainers = [{ name = "Nguyễn Hồng Quân", email = "ng.hong.quan@gmail.com" }]
 dynamic = ["version"]
 readme = "README.rst"
-license = { text = "MPL-2.0" }
+license = "MPL-2.0"
 requires-python = "<4.0,>=3.14"
 dependencies = [
+  "click>=8.5.0",
   "first>=2.0.2",
   "http-constants>=0.5.0",
   "kiss-headers>=2.5.0",
   "logbook>=1.10.1",
-  "multidict>=6.8.0",
+  "multidict>=6.9.1",
   "orjson>=3.12.0",
   "pydantic>=2.13.5",
   "pydantic-settings>=2.15.0",
   "typed-argument-parser>=1.12.0",
-  "yarl>=1.24.5",
+  "yarl>=1.25.1",
 ]
 classifiers = [
   "Environment :: Web Environment",
@@ -40,13 +41,15 @@ dev = [
   "devtools>=0.12.2",
   "fastapi>=0.141.1",
   "jinja2>=3.1.6",
-  "uvicorn>=0.52.4",
+  "uvicorn>=0.53.0",
 ]
 lint = [
-  "ruff>=0.16.7",
+  "ruff>=0.16.8",
 ]
 test = [
   "mypy>=2.3.1",
+  "pytest>=9.1.1",
+  "pytest-mock>=3.15.1",
   "pytest-mypy>=1.0.1",
   "types-first>=2.0.5.20260408",
 ]
@@ -80,9 +83,8 @@ init_typed = true
 init_forbid_extra = true
 warn_required_dynamic_aliases = true
 
-[tool.pytest.ini_options]
-addopts = "--mypy"
-minversion = "8.0"
+[tool.pytest]
+addopts = ["--mypy"]
 testpaths = ["tests", "curlipie"]
 
 [tool.ruff]
@@ -109,11 +111,11 @@ exclude = [
   "node_modules",
   "venv",
 ]
-target-version = "py312"
+target-version = "py314"
 
 [tool.ruff.lint]
 # Enable Pyflakes `E` and `F` codes by default.
-select = ["E", "F"]
+select = ["E", "F", "UP", "ANN"]
 ignore = []
 # Allow unused variables when underscore-prefixed.
 dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"

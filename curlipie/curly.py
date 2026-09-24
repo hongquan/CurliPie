@@ -1,9 +1,8 @@
-
 import collections.abc
 from dataclasses import dataclass, field
 from collections import OrderedDict, deque
+from typing import cast
 from urllib.parse import parse_qsl
-from typing import List, Optional, Tuple, Deque
 
 import yarl
 import orjson
@@ -14,14 +13,13 @@ from kiss_headers import Headers, Header
 from http_constants.headers import HttpHeaders as HH
 
 
-
 logger = Logger(__name__)
 
 
 @dataclass
 class DataArgParseResult:
-    data: Deque[Tuple[str, str]] = field(default_factory=deque)
-    errors: Deque[str] = field(default_factory=deque)
+    data: deque[tuple[str, str]] = field(default_factory=deque)
+    errors: deque[str] = field(default_factory=deque)
 
 
 # Ref: https://helpmanual.io/help/curl/
@@ -49,37 +47,37 @@ class CURLArgumentParser(Tap):
     remote_header_name: bool = False
     max_redirs: int = 0
     max_time: float = 0
-    request: Optional[str] = None
-    proxy: Optional[str] = None
-    user: Optional[str] = None
-    cert: Optional[str] = None
-    cacert: Optional[str] = None
-    header: List[str] = []
-    form: List[str] = []
-    data: List[str] = []
-    data_raw: List[str] = []
-    data_binary: List[str] = []
-    user_agent: Optional[str] = None
+    request: str | None = None
+    proxy: str | None = None
+    user: str | None = None
+    cert: str | None = None
+    cacert: str | None = None
+    header: list[str] = []
+    form: list[str] = []
+    data: list[str] = []
+    data_raw: list[str] = []
+    data_binary: list[str] = []
+    user_agent: str | None = None
     head: bool = False
     get: bool = False
-    output: Optional[str] = None
+    output: str | None = None
     http2: bool = False
     # Intermediate converted data
     _url: str = ''
-    _auth: Optional[BasicAuthorization] = None
-    _params: List[Tuple[str, str]] = []
-    _data: List[Tuple[str, str]] = []
+    _auth: BasicAuthorization | None = None
+    _params: deque[tuple[str, str]] = field(default_factory=deque)
+    _data: deque[tuple[str, str]] = field(default_factory=deque)
     _headers: Headers
     _request_json: bool = False
     _accept_json: bool = False
-    _errors: List[str] = []
+    _errors: list[str] = []
 
     def _get_class_variables(self, exclude_tap_ignores: bool = True) -> OrderedDict[str, str]:
-        '''Overide to exclude our private variables'''
+        """Overide to exclude our private variables"""
         all_variables = super()._get_class_variables(exclude_tap_ignores)
         return OrderedDict((k, v) for k, v in all_variables.items() if not k.startswith('_'))
 
-    def configure(self):
+    def configure(self) -> None:
         self.add_argument('url')
         self.add_argument('-v', '--verbose')
         self.add_argument('-i', '--include')
@@ -118,7 +116,7 @@ class CURLArgumentParser(Tap):
         self.add_argument('-o', '--output')
         self._headers = Headers()
 
-    def process_args(self):
+    def process_args(self) -> None:
         u = yarl.URL(self.url)
         # Clean fragment, if exist
         url = str(u.with_fragment(None).with_query(None))
@@ -143,30 +141,33 @@ class CURLArgumentParser(Tap):
             if not headers:
                 continue
             if HH.CONTENT_TYPE in headers:
-                hx = get_polymorphic(headers, ContentType)
+                hx = cast(ContentType | None, get_polymorphic(headers, ContentType))
                 if hx and hx.get_mime() == HH.CONTENT_TYPE_VALUES.json:
                     self._request_json = True
                     continue
             elif HH.ACCEPT in headers:
-                hx = get_polymorphic(headers, Accept)
+                hx = cast(Accept | None, get_polymorphic(headers, Accept))
                 if hx and hx.has(HH.CONTENT_TYPE_VALUES.json):
                     self._accept_json = True
                     continue
-            elif HH.AUTHORIZATION in headers and headers.authorization.content.startswith('Basic '):
-                hx = get_polymorphic(headers, BasicAuthorization)
-                self._auth = hx
-                continue
+            elif HH.AUTHORIZATION in headers:
+                auth_header = cast(Header, headers.authorization)
+                if auth_header.content.startswith('Basic '):
+                    hx = cast(BasicAuthorization | None, get_polymorphic(headers, BasicAuthorization))
+                    self._auth = hx
+                    continue
             # kiss-header doesn't prevent duplicate, so we have to check ourselve
             # Please note the behavior of kiss-headers: The "Accept-Encoding: gzip, deflate"
             # will be parsed to two Header objects, to get all the "value" side, we have to
             # convert the parse result to dict.
-            name = headers[0].pretty_name
+            first_header = cast(Header, headers[0])
+            name = first_header.pretty_name
             if self._headers.has(name):
                 del self._headers[name]
             value = headers.to_dict()[name]
             self._headers += Header(name, value)
 
-    def error(self, message):
+    def error(self, message: str) -> None:  # type: ignore[override]
         # Override to prevent parser from terminating our program
         pass
 
@@ -186,7 +187,7 @@ def parse_post_data(string: str, ignore_at: bool = False) -> DataArgParseResult:
     # HTTPie doesn't support sending raw content as request body
     # (though it allows to specify raw content as the value for a field),
     # so we can ignore cURL "content", "=content", "@filename" syntaxes.
-    errors: Deque[str] = deque()
+    errors: deque[str] = deque()
     if string.startswith('@'):
         errors.append('@filename syntax (without field name) is not supported')
         return DataArgParseResult(data, errors)
