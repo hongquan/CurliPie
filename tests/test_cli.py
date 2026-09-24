@@ -1,4 +1,5 @@
 from click.testing import CliRunner
+from pytest_mock import MockerFixture
 
 from curlipie.cli import main
 
@@ -53,3 +54,14 @@ def test_pipe_multiline_curl() -> None:
     assert result.exit_code == 0
     assert 'example.com/api' in result.output
     assert 'name=bob' in result.output
+
+
+def test_interactive_input(mocker: MockerFixture) -> None:
+    # When stdin looks like a TTY, the CLI prompts and reads interactive input.
+    stdin = mocker.patch('curlipie.cli.sys.stdin')
+    stdin.isatty.return_value = True
+    stdin.read.return_value = ''
+
+    result = runner.invoke(main, input='curl http://example.com\n')
+    assert result.exit_code == 0
+    assert result.output.strip() == 'http example.com'
