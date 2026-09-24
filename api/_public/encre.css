@@ -525,12 +525,6 @@ button, input:where([type='button'], [type='reset'], [type='submit']), ::file-se
 }
 
 @media (width >= 40rem) {
-  .sm\:resize-none {
-    resize: none;
-  }
-}
-
-@media (width >= 40rem) {
   .sm\:items-center {
     align-items: center;
   }
