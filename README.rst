@@ -175,6 +175,5 @@ Brought to you by `Nguyễn Hồng Quân <author_>`_.
 .. _alpinejs: https://github.com/alpinejs/alpine
 .. _encrecss: https://encrecss.uk.to
 .. _tailwindcss: https://tailwindcss.com
-.. _bun: https://bun.sh
 .. _uv: https://docs.astral.sh/uv/
 .. _author: https://quan.hoabinh.vn
