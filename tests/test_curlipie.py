@@ -16,7 +16,7 @@ test_data = (
     ("curl http://quan.hoabinh.vn --user username:password",
      "http -a username:password quan.hoabinh.vn"),
     ("curl --header 'Content-Type: application/json' --header 'Host: quan.hoabinh.vn' http://103.92.28.225",
-     "http 103.92.28.225 Host:quan.hoabinh.vn Content-Type:application/json"),
+     "http -j 103.92.28.225 Host:quan.hoabinh.vn"),
     ("curl --request DELETE http://quan.hoabinh.vn/users/1",
      "http DELETE quan.hoabinh.vn/users/1"),
     ("curl -X POST http://quan.hoabinh.vn -d 'username=yourusername&password=yourpassword'",
@@ -112,3 +112,29 @@ def test_json_with_quote_escape():
     httpie = curl_to_httpie(curl).httpie
     debug(httpie)
     assert httpie == "http localhost:3000/posts title=murat author='öner'"
+
+
+def test_user_query_json_accept_and_content_type():
+    curl = ("curl -X 'POST' \\\n"
+            "  'https://orch.foobar.com/rest/environments/4/deprecate' \\\n"
+            "  -H 'accept: application/json' \\\n"
+            "  -H 'Content-Type: application/json' \\\n"
+            "  -d '{\n"
+            '  "replacementEnvironmentId": "1493"\n'
+            "}'")
+    httpie = curl_to_httpie(curl).httpie
+    assert httpie == "http https://orch.foobar.com/rest/environments/4/deprecate replacementEnvironmentId=1493"
+
+
+def test_accept_json_without_data():
+    curl = "curl -H 'Accept: application/json' https://api.example.com/items"
+    httpie = curl_to_httpie(curl).httpie
+    assert httpie == "http -j https://api.example.com/items"
+    httpie_long = curl_to_httpie(curl, long_option=True).httpie
+    assert httpie_long == "http --json https://api.example.com/items"
+
+
+def test_accept_json_with_flags_compound():
+    curl = "curl -L -u user:pass -H 'Accept: application/json' https://api.example.com/items"
+    httpie = curl_to_httpie(curl).httpie
+    assert httpie == "http -Fja user:pass https://api.example.com/items"

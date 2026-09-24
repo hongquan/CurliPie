@@ -3,7 +3,6 @@ import shlex
 import logging
 from shlex import quote
 from collections import deque
-from typing import List
 
 import orjson
 from first import first
@@ -13,7 +12,7 @@ from http_constants.headers import HttpHeaders as HH
 from .curly import CURLArgumentParser
 
 
-REGEX_SINGLE_OPT = re.compile(r'-\w$')
+REGEX_SINGLE_OPT = re.compile(r'^-\w+$')
 REGEX_SHELL_LINEBREAK = re.compile(r'\\\s+')
 logger = logging.getLogger(__name__)
 EXAMPLE: JsonValue = {'httpie': 'http -fa admin:xxx quan.hoabinh.vn/api/users name=meow', 'errors': []}
@@ -73,6 +72,11 @@ def curl_to_httpie(cmd: str, long_option: bool = False) -> ConversionResult:
             cmds.append('--form')
         else:
             join_previous_arg(cmds, 'f')
+    elif not args._data and (args._request_json or args._accept_json):
+        if long_option:
+            cmds.append('--json')
+        else:
+            join_previous_arg(cmds, 'j')
     if args.proxy:
         cmds.extend(('--proxy', args.proxy))
     user = args.user if args.user else (':'.join(args._auth.get_username_password()) if args._auth else None)
@@ -104,10 +108,6 @@ def curl_to_httpie(cmd: str, long_option: bool = False) -> ConversionResult:
     # Headers
     for k, v in args._headers.to_dict().items():
         cmds.append(f'{quote(k)}:{quote(v)}')
-    if args._request_json and not args._data:
-        mime = quote(HH.CONTENT_TYPE_VALUES.json)
-        key = quote(HH.CONTENT_TYPE)
-        cmds.append(f'{key}:{mime}')
     if args.user_agent:
         cmds.append(f'{HH.USER_AGENT}:{quote(args.user_agent)}')
     # Params

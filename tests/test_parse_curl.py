@@ -53,6 +53,14 @@ def test_headers():
     assert args._request_json
 
 
+def test_accept_json_header():
+    cmline = "--header 'Accept: application/json' --header 'Host: quan.hoabinh.vn' http://103.92.28.225"
+    args = parsed_args(cmline)
+    assert args.header == ['Accept: application/json', 'Host: quan.hoabinh.vn']
+    assert args._headers == Headers(Header('Host', 'quan.hoabinh.vn'))
+    assert args._accept_json
+
+
 def test_method():
     cmline = "--request DELETE http://quan.hoabinh.vn"
     args = parsed_args(cmline)
